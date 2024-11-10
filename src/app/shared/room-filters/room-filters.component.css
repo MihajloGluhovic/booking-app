@@ -1,0 +1,14 @@
+.strong {
+  font-weight: 500;
+}
+
+section {
+  background-color: rgb(245, 245, 245);
+  padding-top: 0.5rem;
+  padding-left: 1.5rem;
+  padding-right: 3rem;
+  padding-bottom: 1.5rem;
+  border-radius: 12px;
+
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}

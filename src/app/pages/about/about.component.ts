@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { Observable, Observer } from 'rxjs';
@@ -27,6 +28,8 @@ export interface ExampleTab {
     MatIconModule,
     MatListModule,
     MatTabsModule,
+    MatProgressSpinnerModule,
+
     AsyncPipe,
   ],
   templateUrl: './about.component.html',

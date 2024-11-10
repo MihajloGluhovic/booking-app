@@ -1,1 +1,6 @@
-<p>room-filters works!</p>
+<section [formGroup]="roomFilters">
+  <p class="strong">Room Type:</p>
+  <p *ngFor="let filter of filters">
+    <mat-checkbox formControlName="{{ filter }}">{{ filter }}</mat-checkbox>
+  </p>
+</section>

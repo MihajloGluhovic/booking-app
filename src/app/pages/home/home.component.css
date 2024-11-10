@@ -1,8 +1,18 @@
-.container {
+.search-container {
   /* Parent element */
   display: flex;
   justify-content: center; /* Centers child horizontally */
   align-items: center; /* Centers child vertically (optional) */
   height: 20vh; /* Optional: Full viewport height */
   margin-top: 5vh;
+}
+
+.main-container {
+  /* Parent element */
+  display: flex;
+  justify-content: center; /* Centers child horizontally */
+  gap: 10rem;
+  align-items: start; /* Centers child vertically (optional) */
+  margin-bottom: 20vh;
+  margin-top: 2;
 }

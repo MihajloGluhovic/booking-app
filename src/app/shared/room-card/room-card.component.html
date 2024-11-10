@@ -1,0 +1,17 @@
+<mat-card class="room-card">
+  <mat-card-header>
+    <mat-card-title>{{ room.title }}</mat-card-title>
+    <mat-card-subtitle>{{ room.price }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <img mat-card-image [src]="room.image" alt="{{ room.title }}" />
+
+  <mat-card-content>
+    <p>{{ room.description }}</p>
+    <p>Rating: {{ room.rating }} / 10</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button color="primary">Book Now</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,31 @@
+.example-card {
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-size: cover;
+}
+
+.room-card {
+  width: 300px;
+  margin: 10px;
+}
+
+mat-card-header {
+  text-align: left;
+}
+
+mat-card-content p {
+  font-size: 14px;
+  color: #757575;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+img {
+  max-height: 400px;
+  object-fit: cover;
+}

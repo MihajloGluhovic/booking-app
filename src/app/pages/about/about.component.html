@@ -9,7 +9,7 @@
     </mat-card-content>
   </mat-card>
 
-  @if ((asyncTabs | async) === null) { Loading tabs... }
+  @if ((asyncTabs | async) === null) { <mat-spinner></mat-spinner>}
 
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
     @for (tab of asyncTabs | async; track tab) {

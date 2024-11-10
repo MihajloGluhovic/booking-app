@@ -1,0 +1,7 @@
+<div class="container">
+  <app-room-card
+    *ngIf="room; else loadingSpinner"
+    [roomInfo]="room"
+  ></app-room-card>
+  <ng-template #loadingSpinner></ng-template>
+</div>
