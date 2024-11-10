@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll; /* Always show scrollbar, to prevent layout shift */
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.home-button {
+  cursor: pointer;
+  text-decoration: none;
+}
+.home-button:visited {
+  color: azure;
+}
+
+.bg-color-blue {
+  background-color: #005cbb;
+}
+
+.color-white {
+  color: azure;
+}
+
+section {
+  display: table;
+}

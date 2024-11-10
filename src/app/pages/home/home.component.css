@@ -1,0 +1,8 @@
+.container {
+  /* Parent element */
+  display: flex;
+  justify-content: center; /* Centers child horizontally */
+  align-items: center; /* Centers child vertically (optional) */
+  height: 20vh; /* Optional: Full viewport height */
+  margin-top: 5vh;
+}
