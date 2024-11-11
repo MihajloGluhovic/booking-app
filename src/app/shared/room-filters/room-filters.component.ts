@@ -3,16 +3,20 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-room-filters',
   standalone: true,
   imports: [
     FormsModule,
+    CommonModule,
+
     ReactiveFormsModule,
+
+    MatButtonModule,
     MatPseudoCheckboxModule,
     MatCheckboxModule,
-    CommonModule,
   ],
   templateUrl: './room-filters.component.html',
   styleUrl: './room-filters.component.css',

@@ -1,23 +1,31 @@
 <div class="search-bar">
   <!-- Search input -->
-  <mat-form-field appearance="outline">
-    <mat-label>Search</mat-label>
-    <input matInput [(ngModel)]="searchText" placeholder="Enter search text" />
-  </mat-form-field>
 
-  <!-- Date picker -->
-  <mat-form-field appearance="outline">
-    <mat-label>Select Date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="picker"
-      [(ngModel)]="selectedDate"
-      placeholder="Choose a date"
-    />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+  <form [formGroup]="dateRangeForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="startDate" formControlName="startDate" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="startDate"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #startDate></mat-datepicker>
+    </mat-form-field>
 
-  <!-- Search button -->
-  <button mat-raised-button color="primary" (click)="search()">Search</button>
+    <mat-form-field appearance="outline">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="endDate" formControlName="endDate" />
+      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+      <mat-datepicker #endDate></mat-datepicker>
+    </mat-form-field>
+  </form>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="search()"
+    [disabled]="!dateRangeForm.valid"
+  >
+    Search
+  </button>
 </div>

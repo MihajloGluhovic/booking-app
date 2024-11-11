@@ -10,3 +10,8 @@ mat-form-field {
   max-width: 300px;
   margin-top: 1rem;
 }
+
+form {
+  display: flex;
+  gap: 1.5rem;
+}
