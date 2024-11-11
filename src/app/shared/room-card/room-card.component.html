@@ -1,7 +1,7 @@
 <mat-card class="room-card">
   <mat-card-header>
     <mat-card-title>{{ room.title }}</mat-card-title>
-    <mat-card-subtitle>{{ room.price }}</mat-card-subtitle>
+    <mat-card-subtitle> {{ room.price | currency : "EUR" }}</mat-card-subtitle>
   </mat-card-header>
 
   <img mat-card-image [src]="room.image" alt="{{ room.title }}" />
