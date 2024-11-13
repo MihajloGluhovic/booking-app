@@ -1,0 +1,38 @@
+.register-form {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 4rem;
+  margin-bottom: 7rem;
+
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+button {
+  width: 100%;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: "Roboto", sans-serif;
+  margin-top: 6rem;
+}
+
+.register-header h2 {
+  font-size: 34px;
+  color: #3f51b5; /* You can adjust the color as per your theme */
+  font-weight: 600;
+}
+
+.register-header p {
+  font-size: 16px;
+  color: #757575; /* Lighter text color */
+  margin-top: 5px;
+}
