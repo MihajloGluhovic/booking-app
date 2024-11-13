@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { RoomCardComponent } from '../shared/room-card/room-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -18,13 +18,15 @@ import { RoomInterface } from '../shared/interfaces/room.interface';
   templateUrl: './home-rooms.component.html',
   styleUrl: './home-rooms.component.css',
 })
-export class HomeRoomsComponent {
+export class HomeRoomsComponent implements OnInit {
   rooms?: RoomInterface[];
   isLoading: boolean = false;
 
   constructor(private roomService: RoomService) {}
 
   ngOnInit() {
+    this.roomService.refreshRooms();
+
     this.roomService.rooms$.subscribe(
       (rooms) => {
         this.rooms = rooms;
@@ -33,8 +35,5 @@ export class HomeRoomsComponent {
     );
 
     // Subscribe to loading state to show/hide spinner
-    this.roomService.isLoading$.subscribe((isLoading) => {
-      this.isLoading = isLoading;
-    });
   }
 }

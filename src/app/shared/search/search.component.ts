@@ -49,18 +49,17 @@ export class SearchComponent {
     });
   }
   search() {
-    if (this.dateRangeForm.valid) {
-      const startDate = this.dateService.formatDate(
-        this.dateRangeForm.get('startDate')?.value
-      );
-      const endDate = this.dateService.formatDate(
-        this.dateRangeForm.get('endDate')?.value
-      );
-      // available?startDate=2024-11-09&endDate=2024-11-10
-      const request = `available?startDate=${startDate}&endDate=${endDate}`;
-      console.log('Search Date Range:', startDate, endDate);
-      this.roomsService.getRoomsOnDate(request);
-      this.roomsService.refreshRooms();
-    }
+    const startDate = this.dateService.formatDate(
+      this.dateRangeForm.get('startDate')?.value
+    );
+    const endDate = this.dateService.formatDate(
+      this.dateRangeForm.get('endDate')?.value
+    );
+    const request = `available?startDate=${startDate}&endDate=${endDate}`;
+
+    this.roomsService.getRoomsOnDate(request).subscribe(
+      (rooms) => console.log('Rooms updated:', rooms),
+      (error) => console.error('Error fetching rooms:', error)
+    );
   }
 }
