@@ -4,14 +4,22 @@
     class="example-icon"
     aria-label="Example icon-button with menu icon"
   ></button>
-  <a routerLink="/" class="home-button">Hotel Booking </a>
+  <a routerLink="/" class="home-button">Hotel Booking</a>
   <span class="example-spacer"></span>
   <section>
-    <div>
+    <div *ngIf="isLoggedIn(); else guestButtons">
+      <!-- Authenticated User Actions -->
+      <button routerLink="/about" mat-flat-button>About Us</button>
+      <button routerLink="/contact" mat-flat-button>Contact</button>
+      <button routerLink="/profile" mat-flat-button>Profile</button>
+      <button (click)="onLogout()" mat-flat-button>Log Out</button>
+    </div>
+    <ng-template #guestButtons>
+      <!-- Guest Actions -->
       <button routerLink="/about" mat-flat-button>About Us</button>
       <button routerLink="/contact" mat-flat-button>Contact</button>
       <button routerLink="/login" mat-flat-button>Login</button>
       <button routerLink="/signup" mat-flat-button>Sign Up</button>
-    </div>
+    </ng-template>
   </section>
 </mat-toolbar>

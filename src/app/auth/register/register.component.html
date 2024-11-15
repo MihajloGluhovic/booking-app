@@ -40,6 +40,64 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        formControlName="password"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="hidePassword = !hidePassword"
+        [attr.aria-label]="'Toggle password visibility'"
+        [attr.aria-pressed]="!hidePassword"
+      >
+        <mat-icon>{{
+          hidePassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+        Password must be at least 6 characters long
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        matInput
+        [type]="hideConfirmPassword ? 'password' : 'text'"
+        formControlName="confirmPassword"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="hideConfirmPassword = !hideConfirmPassword"
+        [attr.aria-label]="'Toggle confirm password visibility'"
+        [attr.aria-pressed]="!hideConfirmPassword"
+      >
+        <mat-icon>{{
+          hideConfirmPassword ? "visibility_off" : "visibility"
+        }}</mat-icon>
+      </button>
+      <mat-error
+        *ngIf="registerForm.get('confirmPassword')?.hasError('required')"
+      >
+        Password Confirmation is required
+      </mat-error>
+      <mat-error
+        *ngIf="registerForm.get('confirmPassword')?.hasError('minlength')"
+      >
+        Password must be at least 6 characters long
+      </mat-error>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password" />
       <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
         Password is required
@@ -48,6 +106,25 @@
         Password must be at least 6 characters long
       </mat-error>
     </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        matInput
+        type="confirmPassword"
+        formControlName="confirmPassword"
+      />
+      <mat-error
+        *ngIf="registerForm.get('confirmPassword')?.hasError('required')"
+      >
+        Password Confirmation is required
+      </mat-error>
+      <mat-error
+        *ngIf="registerForm.get('confirmPassword')?.hasError('minlength')"
+      >
+        Password must be at least 6 characters long
+      </mat-error>
+    </mat-form-field> -->
 
     <button
       mat-raised-button

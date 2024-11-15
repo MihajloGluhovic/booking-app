@@ -29,12 +29,16 @@ import { AuthService } from '../services/auth.service';
 export class RegisterComponent {
   registerForm: FormGroup;
 
+  hidePassword = true;
+  hideConfirmPassword = true;
+
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(3)]],
       lastName: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(5)]],
     });
   }
 

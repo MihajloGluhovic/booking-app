@@ -1,0 +1,11 @@
+.error-message {
+  display: flex;
+  align-items: center;
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+}
+mat-icon {
+  font-size: 18px;
+  margin-right: 4px;
+}
