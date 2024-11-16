@@ -1,0 +1,61 @@
+<div class="profile-container">
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <h2>My Profile</h2>
+    <p>{{ user?.firstName }} {{ user?.lastName }}</p>
+  </div>
+
+  <!-- Deactivate Account Button -->
+  <div class="deactivate-section">
+    <button mat-raised-button color="warn" (click)="deactivateAccount()">
+      Deactivate Account
+    </button>
+  </div>
+
+  <!-- Change Password Section -->
+  <div class="change-password-section">
+    <h3>Change Password</h3>
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <mat-form-field appearance="outline">
+        <mat-label>Current Password</mat-label>
+        <input matInput type="password" formControlName="currentPassword" />
+        <mat-error
+          *ngIf="passwordForm.get('currentPassword')?.hasError('required')"
+        >
+          Current password is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>New Password</mat-label>
+        <input matInput type="password" formControlName="newPassword" />
+        <mat-error
+          *ngIf="passwordForm.get('newPassword')?.hasError('required')"
+        >
+          New password is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Confirm New Password</mat-label>
+        <input matInput type="password" formControlName="confirmNewPassword" />
+        <mat-error
+          *ngIf="passwordForm.get('confirmNewPassword')?.hasError('required')"
+        >
+          Please confirm your new password
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="passwordForm.invalid"
+        >
+          Change Password
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

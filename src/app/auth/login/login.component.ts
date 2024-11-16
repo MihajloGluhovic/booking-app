@@ -40,7 +40,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log('Form submitted', this.loginForm.value);
+      console.log('Form submitted successfully');
       this.authService.login(this.loginForm.value);
     } else {
       console.log('Form is invalid');
