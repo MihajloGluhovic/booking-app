@@ -43,6 +43,22 @@ export class RoomService {
     );
   }
 
+  getRoomById(slug: string): Observable<RoomInterface> {
+    this.isLoadingSubject.next(true);
+    const fullUrl = environment.apiUrl + '/roomtypes/' + slug;
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+    });
+
+    return this.http.get<RoomInterface>(fullUrl, { headers }).pipe(
+      tap((room) => {
+        // this.roomsSubject.next(rooms);
+        this.isLoadingSubject.next(false);
+        console.log('Single Room:', room);
+      })
+    );
+  }
+
   refreshRooms(): void {
     this.getRooms().subscribe();
   }
