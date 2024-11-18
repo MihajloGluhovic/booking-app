@@ -15,7 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { RoomService } from '../../shared/services/rooms.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { DateAdapter } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-room-details',
@@ -31,6 +31,7 @@ import { DateAdapter } from '@angular/material/core';
     MatDatepickerModule,
     MatButtonModule,
     MatProgressSpinner,
+    MatNativeDateModule,
   ],
   templateUrl: './room-details.component.html',
   styleUrl: './room-details.component.css',
