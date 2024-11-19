@@ -1,50 +1,89 @@
-<div class="room-details-container">
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
+<div class="room-container">
+  <mat-card class="room-card">
+    <mat-card-header>
+      <mat-card-title>{{ room?.description }}</mat-card-title>
+      <mat-card-subtitle>Rating: {{ room?.rating }}⭐</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="room?.image" alt="Room image" />
+    <mat-card-content>
+      <p>{{ room?.fullDescription }}</p>
+      <p><strong>Price:</strong> ${{ room?.price }} per night</p>
+      <p><strong>Max Occupancy:</strong> {{ room?.maxOccupancy }}</p>
 
-  <div *ngIf="!isLoading && room">
-    <h2>{{ room.title }}</h2>
-    <h2>{{ room.id }}</h2>
-    <img [src]="room.image" alt="{{ room.title }}" class="room-image" />
-    <p><strong>Price:</strong> ${{ room.price }}</p>
-    <p><strong>Rating:</strong> {{ room.rating }} / 10</p>
-    <p><strong>Description:</strong> {{ room.description }}</p>
-
-    <h3>Make a Reservation</h3>
-    <form [formGroup]="dateRangeForm" (ngSubmit)="makeReservation()">
-      <div class="dates">
-        <mat-form-field appearance="outline">
-          <mat-label>Start Date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="startDate"
-            formControlName="startDate"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="startDate"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #startDate></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="endDate" formControlName="endDate" />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="endDate"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #endDate></mat-datepicker>
-        </mat-form-field>
-      </div>
-
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="dateRangeForm.invalid"
+      <h3>Features</h3>
+      <mat-chip-listbox
+        class="mat-mdc-chip-set-stacked"
+        aria-label="Static Features"
       >
-        Reserve
-      </button>
-    </form>
+        <mat-chip *ngFor="let feature of staticFeatures">{{
+          feature
+        }}</mat-chip>
+      </mat-chip-listbox>
+
+      <h3>Additional Services</h3>
+
+      <form [formGroup]="servicesForm">
+        <mat-checkbox formControlName="breakfast" (change)="onServiceChange()">
+          Breakfast - $20/person
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="sauna" (change)="onServiceChange()">
+          Sauna - $10/person
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="gym" (change)="onServiceChange()">
+          Gym - $10/person
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="laundry" (change)="onServiceChange()">
+          Laundry Service - $10
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="parking" (change)="onServiceChange()">
+          Parking - $5
+        </mat-checkbox>
+      </form>
+
+      <h3>Total Price: ${{ totalPrice }}</h3>
+    </mat-card-content>
+  </mat-card>
+
+  <h3>Room Dates</h3>
+  <div class="date-container">
+    <mat-form-field appearance="fill" class="date-field">
+      <mat-label>Start Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="startPicker"
+        [value]="room?.startDate"
+        readonly
+        disabled
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="startPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #startPicker disabled></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="date-field">
+      <mat-label>End Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="endPicker"
+        [value]="room?.endDate"
+        readonly
+        disabled
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="endPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #endPicker disabled></mat-datepicker>
+    </mat-form-field>
   </div>
+
+  <button mat-raised-button color="primary" (click)="makeReservation()">
+    Reserve Now
+  </button>
 </div>

@@ -1,8 +1,15 @@
+.header {
+  margin-top: 6rem;
+}
 .search-bar {
   display: flex;
   gap: 1rem;
   align-items: center;
   width: 100%;
+}
+
+.submit {
+  margin-bottom: 8rem;
 }
 
 mat-form-field {
@@ -14,4 +21,5 @@ mat-form-field {
 form {
   display: flex;
   gap: 1.5rem;
+  margin-bottom: 8rem;
 }

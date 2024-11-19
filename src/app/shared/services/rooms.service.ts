@@ -12,9 +12,7 @@ export class RoomService {
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    this.refreshRooms();
-  }
+  constructor(private http: HttpClient) {}
 
   getRooms(): Observable<RoomInterface[]> {
     const fullUrl = environment.apiUrl + '/roomtypes/allroomtypes';
@@ -28,7 +26,6 @@ export class RoomService {
   }
 
   getRoomsOnDate(date: string): Observable<RoomInterface[]> {
-    this.isLoadingSubject.next(true);
     const fullUrl = environment.apiUrl + '/roomtypes/' + date;
     const headers = new HttpHeaders({
       'Ocp-Apim-Subscription-Key': environment.apiKey,
@@ -38,19 +35,27 @@ export class RoomService {
       tap((rooms) => {
         this.roomsSubject.next(rooms);
         this.isLoadingSubject.next(false);
-        console.log('Request:', rooms);
       })
     );
   }
 
   getRoomById(slug: string): Observable<RoomInterface> {
+    const token = localStorage.getItem('token');
+
+    const startDateItem = localStorage.getItem('startDateStorage');
+    const endDateItem = localStorage.getItem('endDateStorage');
+
+    const body = { startDate: startDateItem, endDate: endDateItem };
+
     this.isLoadingSubject.next(true);
+
     const fullUrl = environment.apiUrl + '/roomtypes/' + slug;
     const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
       'Ocp-Apim-Subscription-Key': environment.apiKey,
     });
 
-    return this.http.get<RoomInterface>(fullUrl, { headers }).pipe(
+    return this.http.post<RoomInterface>(fullUrl, body, { headers }).pipe(
       tap((room) => {
         // this.roomsSubject.next(rooms);
         this.isLoadingSubject.next(false);

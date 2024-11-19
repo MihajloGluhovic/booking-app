@@ -16,6 +16,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { DateService } from '../services/date.service';
 import { RoomService } from '../services/rooms.service';
+import { dateRangeValidator } from './validators/date-range.validator';
 
 @Component({
   selector: 'app-search',
@@ -44,10 +45,13 @@ export class SearchComponent {
     private dateService: DateService,
     private roomsService: RoomService
   ) {
-    this.dateRangeForm = this.fb.group({
-      startDate: [null, Validators.required],
-      endDate: [null, Validators.required],
-    });
+    this.dateRangeForm = this.fb.group(
+      {
+        startDate: [null, Validators.required],
+        endDate: [null, Validators.required],
+      },
+      { validators: dateRangeValidator() }
+    );
   }
   search() {
     const startDate = this.dateService.formatDate(
@@ -57,6 +61,8 @@ export class SearchComponent {
       this.dateRangeForm.get('endDate')?.value
     );
     const request = `available?startDate=${startDate}&endDate=${endDate}`;
+    localStorage.setItem('startDateStorage', startDate);
+    localStorage.setItem('endDateStorage', endDate);
 
     this.roomsService.getRoomsOnDate(request).subscribe(
       (rooms) => console.log('Rooms updated:', rooms),
