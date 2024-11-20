@@ -1,4 +1,10 @@
-import { Component, computed } from '@angular/core';
+import {
+  Component,
+  computed,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,13 +28,19 @@ import { CommonModule } from '@angular/common';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
-export class NavbarComponent {
-  isLoggedIn = computed(() => !!this.authService.currentUserSig());
+export class NavbarComponent implements OnInit {
+  isTokenValid: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    // Subscribe to authentication status
+    this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
+      this.isTokenValid = isAuthenticated;
+    });
+  }
 
   onLogout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }

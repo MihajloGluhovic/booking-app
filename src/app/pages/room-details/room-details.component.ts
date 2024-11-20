@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RoomInterface } from '../../shared/interfaces/room.interface';
 import { CommonModule } from '@angular/common';
 
@@ -21,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-room-details',
@@ -46,19 +47,25 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrl: './room-details.component.css',
 })
 export class RoomDetailsComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private roomService = inject(RoomService);
-  private fb = inject(FormBuilder);
-
   room: RoomInterface | undefined;
+
   dateRangeForm: FormGroup;
   servicesForm: FormGroup;
+
   isLoading: boolean = true;
   totalPrice: number = 0;
+  guestCount: number = 1;
+  maxGuests: number = 1;
 
   staticFeatures: string[] = [];
 
-  constructor() {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private roomService: RoomService,
+    private authService: AuthService,
+    private fb: FormBuilder
+  ) {
     this.dateRangeForm = this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -73,41 +80,46 @@ export class RoomDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.servicesForm.valueChanges.subscribe(() => {
-      this.calculateTotalPrice();
-    });
+    this.authService.checkToken().subscribe((tokenStatus) => {
+      if (tokenStatus === 'invalid' || tokenStatus === 'noToken') {
+        this.router.navigate(['/login']); // Redirect for invalid or missing token
+        console.log('Redirecting to login: Token expired or missing');
+        return;
+      }
 
-    const roomSlug = this.route.snapshot.paramMap.get('slug');
-    if (roomSlug) {
-      this.roomService.getRoomById(roomSlug).subscribe({
-        next: (room) => {
-          this.room = room;
-          this.isLoading = false;
-
-          // Ensure staticFeatures and dynamicFeatures are not null or undefined
-          const staticFeatures = room.staticFeatures || {};
-          const dynamicFeatures = room.dynamicFeatures || {};
-
-          // Debug: Log room data to ensure dynamicFeatures exists
-          console.log('Room data:', room);
-
-          // Populate static features (if applicable)
-          this.staticFeatures = Object.keys(staticFeatures)
-            .filter((key) => staticFeatures[key])
-            .map((key) => this.formatFeatureName(key));
-
-          // Set the startDate and endDate from the room
-          this.dateRangeForm.patchValue({
-            startDate: room.startDate,
-            endDate: room.endDate,
-          });
-        },
-        error: (err) => {
-          console.error('Error fetching room:', err);
-          this.isLoading = false; // Stop loading even on error
-        },
+      // Proceed with the rest of the component logic
+      this.servicesForm.valueChanges.subscribe(() => {
+        this.calculateTotalPrice();
       });
-    }
+
+      const roomSlug = this.route.snapshot.paramMap.get('slug');
+      if (roomSlug) {
+        this.roomService.getRoomById(roomSlug).subscribe({
+          next: (room) => {
+            this.room = room;
+            this.guestCount = room.maxOccupancy;
+            this.maxGuests = room.maxOccupancy;
+            this.isLoading = false;
+
+            const staticFeatures = room.staticFeatures || {};
+            console.log('Room data:', room);
+
+            this.staticFeatures = Object.keys(staticFeatures)
+              .filter((key) => staticFeatures[key])
+              .map((key) => this.formatFeatureName(key));
+
+            this.dateRangeForm.patchValue({
+              startDate: room.startDate,
+              endDate: room.endDate,
+            });
+          },
+          error: (err) => {
+            console.error('Error fetching room:', err);
+            this.isLoading = false;
+          },
+        });
+      }
+    });
   }
 
   formatFeatureName(featureKey: string): string {
@@ -154,6 +166,18 @@ export class RoomDetailsComponent implements OnInit {
     }
     if (services.parking) {
       this.totalPrice += prices.parking;
+    }
+  }
+
+  increaseGuests(): void {
+    if (this.guestCount < this.maxGuests) {
+      this.guestCount++;
+    }
+  }
+
+  decreaseGuests(): void {
+    if (this.guestCount > 1) {
+      this.guestCount--;
     }
   }
 }

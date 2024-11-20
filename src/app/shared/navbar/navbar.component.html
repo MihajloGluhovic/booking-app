@@ -7,7 +7,7 @@
   <a routerLink="/" class="home-button">Hotel Booking</a>
   <span class="example-spacer"></span>
   <section>
-    <div *ngIf="isLoggedIn(); else guestButtons">
+    <div *ngIf="isTokenValid; else guestButtons">
       <!-- Authenticated User Actions -->
       <button routerLink="/about" mat-flat-button>About Us</button>
       <button routerLink="/contact" mat-flat-button>Contact</button>

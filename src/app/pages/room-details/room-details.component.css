@@ -1,61 +1,69 @@
 .room-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
+  justify-content: center;
+  padding: 20px;
 }
 
 .room-card {
-  width: 80%;
-  max-width: 900px;
-  margin-bottom: 20px;
-}
-
-.booking-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 80%;
-  max-width: 500px;
-}
-
-mat-form-field {
+  max-width: 800px;
   width: 100%;
 }
 
-mat-chip-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+.mat-card-content p {
+  margin: 5px 0;
+  font-size: 14px;
 }
 
-button {
-  align-self: flex-end;
+.features-section {
+  margin-top: 20px;
+}
+
+.features-section mat-chip {
+  margin: 5px;
+  background-color: #e0f7fa;
+  color: #00695c;
+  font-weight: bold;
+}
+
+.services-section {
+  margin-top: 20px;
+}
+
+.services-section mat-checkbox {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.guest-selection {
+  margin-top: 20px;
+}
+
+.guest-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.guest-count {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  min-width: 30px;
+}
+
+.date-selection {
+  margin-top: 20px;
 }
 
 .date-container {
   display: flex;
-  gap: 10px; /* Add some space between the fields */
+  gap: 20px;
 }
 
 .date-field {
-  flex: 1; /* Make the fields take equal width */
-  /* background-color: black; */
-  color: black;
+  flex: 1;
 }
 
-.date-field .mat-form-field-label {
-  color: black; /* Make the label text black */
-}
-
-.date-field .mat-input-element {
-  color: black; /* Make the input text black */
-}
-
-.date-field .mat-datepicker-toggle {
-  color: black; /* Make the calendar icon black */
-}
-
-.date-field .mat-form-field-underline {
-  background-color: black; /* Make the underline black */
+mat-card-actions {
+  margin-top: 20px;
 }

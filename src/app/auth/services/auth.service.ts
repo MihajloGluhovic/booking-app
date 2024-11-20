@@ -6,10 +6,14 @@ import { UserInterface } from '../interfaces/user.interface';
 import { LoginRequestInterface } from '../interfaces/loginRequestInterface.interface';
 import { Router } from '@angular/router';
 import { ChangePassRequest } from '../interfaces/changePassRequest.interface';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   currentUserSig = signal<UserInterface | undefined | null>(undefined);
+
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false); // New BehaviorSubject
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable(); // Expose it as an Observable
 
   constructor(private http: HttpClient, private router: Router) {
     this.loadUserFromStorage(); // Initialize user on service creation
@@ -17,11 +21,36 @@ export class AuthService {
 
   private loadUserFromStorage() {
     const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user'); // Optionally store user info
-    if (token && user) {
-      this.currentUserSig.set(JSON.parse(user));
+
+    if (token) {
+      this.checkToken().subscribe((status) => {
+        if (status === 'valid') {
+          this.isAuthenticatedSubject.next(true);
+        } else {
+          this.isAuthenticatedSubject.next(false);
+        }
+      });
     } else {
-      this.currentUserSig.set(null);
+      this.isAuthenticatedSubject.next(false);
+    }
+  }
+
+  checkToken(): Observable<'valid' | 'invalid' | 'noToken'> {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const fullUrl = environment.apiUrl + '/users/check-token';
+      const headers = new HttpHeaders({
+        'Ocp-Apim-Subscription-Key': environment.apiKey,
+        Authorization: `Bearer ${token}`,
+      });
+      return this.http
+        .get<string>(fullUrl, { headers, responseType: 'text' as 'json' })
+        .pipe(
+          map(() => 'valid' as 'valid'), // Explicitly cast the result to 'valid'
+          catchError(() => of('invalid' as 'invalid')) // Explicitly cast the error result to 'invalid'
+        );
+    } else {
+      return of('noToken');
     }
   }
 
@@ -48,8 +77,9 @@ export class AuthService {
     });
     return this.http.post<UserInterface>(fullUrl, data, { headers }).subscribe(
       (user) => {
-        console.log('Login response:', user);
+        console.log('Login successful:', user);
         this.storeUser(user);
+        this.isAuthenticatedSubject.next(true); // Emit authenticated
         this.router.navigate(['/home']);
       },
       (error) => {
@@ -61,8 +91,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    this.currentUserSig.set(null);
-    console.log('User and token removed from localStorage');
+    this.isAuthenticatedSubject.next(false); // Emit not authenticated
+    this.router.navigate(['/login']);
   }
 
   changePassword(data: ChangePassRequest) {
