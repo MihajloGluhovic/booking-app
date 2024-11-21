@@ -22,6 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../../auth/services/auth.service';
+import { ReservationFetch } from '../../shared/interfaces/reservationFetch.interface';
 
 @Component({
   selector: 'app-room-details',
@@ -54,6 +55,7 @@ export class RoomDetailsComponent implements OnInit {
 
   isLoading: boolean = true;
   totalPrice: number = 0;
+  pricePerNight: number = 0;
   guestCount: number = 1;
   maxGuests: number = 1;
 
@@ -112,6 +114,7 @@ export class RoomDetailsComponent implements OnInit {
               startDate: room.startDate,
               endDate: room.endDate,
             });
+            this.calculateTotalPrice();
           },
           error: (err) => {
             console.error('Error fetching room:', err);
@@ -126,11 +129,48 @@ export class RoomDetailsComponent implements OnInit {
     return featureKey.replace(/([A-Z])/g, ' $1').trim();
   }
 
+  getSelectedServices(): number[] {
+    const servicesMapping = ['breakfast', 'sauna', 'gym', 'laundry', 'parking'];
+    return servicesMapping
+      .map((service, index) =>
+        this.servicesForm.value[service] ? index + 1 : null
+      )
+      .filter((value) => value !== null);
+  }
+
   makeReservation(): void {
-    if (this.dateRangeForm.valid) {
+    this.authService.checkToken().subscribe((tokenStatus) => {
+      if (tokenStatus === 'invalid' || tokenStatus === 'noToken') {
+        this.router.navigate(['/login']); // Redirect for invalid or missing token
+        console.log('Redirecting to login: Token expired or missing');
+        return;
+      }
+
+      if (!this.room) {
+        return;
+      }
+
       const { startDate, endDate } = this.dateRangeForm.value;
-      // Handle the reservation logic here
-    }
+      const selectedFeatures = this.getSelectedServices();
+      const numOfPeople = this.guestCount;
+      const id = this.room.id;
+
+      // console.log('Start Date', startDate);
+      // console.log('End Date', endDate);
+      // console.log('Selected Services', selectedFeatures);
+      // console.log('Guest Count', guestNumber);
+      // console.log('Room ID', id);
+
+      const request: ReservationFetch = {
+        startDate,
+        endDate,
+        id,
+        selectedFeatures,
+        numOfPeople,
+      };
+
+      this.roomService.reserveRoom(request).subscribe((response) => {});
+    });
   }
   onServiceChange(): void {
     // This method is called whenever a checkbox value changes
@@ -138,46 +178,69 @@ export class RoomDetailsComponent implements OnInit {
   }
 
   calculateTotalPrice(): void {
+    if (!this.room) return;
+
     const services = this.servicesForm.value;
 
-    // Prices for each service
-    const prices = {
-      breakfast: 20,
-      sauna: 10,
-      gym: 10,
-      laundry: 10,
-      parking: 5,
-    };
+    // Room base price per night
+    const pricePerNight = this.room.price || 0;
 
-    // Calculate total price based on selected services
-    this.totalPrice = 0;
+    // Extract start and end dates
+    const startDate = this.dateRangeForm.get('startDate')?.value;
+    const endDate = this.dateRangeForm.get('endDate')?.value;
 
-    if (services.breakfast) {
-      this.totalPrice += prices.breakfast;
-    }
-    if (services.sauna) {
-      this.totalPrice += prices.sauna;
-    }
-    if (services.gym) {
-      this.totalPrice += prices.gym;
-    }
-    if (services.laundry) {
-      this.totalPrice += prices.laundry;
-    }
-    if (services.parking) {
-      this.totalPrice += prices.parking;
+    if (startDate && endDate) {
+      // Calculate days staying
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const timeDiff = end.getTime() - start.getTime();
+      const daysStaying = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+      // Base room cost and extra guests
+      const roomCost = pricePerNight * daysStaying;
+      const extraGuestsCost =
+        this.guestCount > 1 ? 30 * (this.guestCount - 1) * daysStaying : 0;
+
+      // Calculate optional services cost
+      const servicesCost = {
+        breakfast: services.breakfast ? 20 * this.guestCount * daysStaying : 0,
+        sauna: services.sauna ? 10 * this.guestCount * daysStaying : 0,
+        gym: services.gym ? 10 * this.guestCount * daysStaying : 0,
+        laundry: services.laundry ? 10 : 0, // Flat rate
+        parking: services.parking ? 5 : 0, // Flat rate
+      };
+
+      const totalServicesCost = Object.values(servicesCost).reduce(
+        (acc, cost) => acc + cost,
+        0
+      );
+
+      // Set final values
+      this.totalPrice = roomCost + extraGuestsCost + totalServicesCost;
+      this.pricePerNight =
+        pricePerNight +
+        (this.guestCount > 1 ? 30 * (this.guestCount - 1) : 0) +
+        Object.values(servicesCost).reduce(
+          (acc, cost) => acc + cost / daysStaying,
+          0
+        );
+    } else {
+      this.totalPrice = 0;
+      this.pricePerNight = 0;
     }
   }
 
   increaseGuests(): void {
     if (this.guestCount < this.maxGuests) {
       this.guestCount++;
+      this.calculateTotalPrice();
     }
   }
 
   decreaseGuests(): void {
     if (this.guestCount > 1) {
       this.guestCount--;
+      this.calculateTotalPrice();
     }
   }
 }

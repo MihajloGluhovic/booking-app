@@ -7,7 +7,7 @@
     </mat-card-header>
     <mat-card-content>
       <p>{{ room?.fullDescription }}</p>
-      <p><strong>Price:</strong> ${{ room?.price }} per night</p>
+      <p><strong>Price:</strong> {{ room?.price | currency }} per night</p>
 
       <!-- Features Section -->
       <div class="features-section">
@@ -70,8 +70,11 @@
       </div>
 
       <!-- Total Price -->
-      <h3>Total Price: ${{ totalPrice }}</h3>
-
+      <div class="pricing">
+        <h3>Price Details</h3>
+        <p><strong>Price per Night:</strong> {{ pricePerNight | currency }}</p>
+        <p><strong>Total Price:</strong> {{ totalPrice | currency }}</p>
+      </div>
       <!-- Room Dates -->
       <div class="date-selection">
         <h3>Room Dates</h3>

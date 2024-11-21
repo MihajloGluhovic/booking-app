@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { RoomInterface } from '../interfaces/room.interface';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
+import { AuthService } from '../../auth/services/auth.service';
+import { ReservationFetch } from '../interfaces/reservationFetch.interface';
+import { ReservationResponse } from '../interfaces/reservationResponse.interface';
 
 @Injectable({ providedIn: 'root' })
 export class RoomService {
@@ -12,7 +15,7 @@ export class RoomService {
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getRooms(): Observable<RoomInterface[]> {
     const fullUrl = environment.apiUrl + '/roomtypes/allroomtypes';
@@ -60,6 +63,22 @@ export class RoomService {
         // this.roomsSubject.next(rooms);
         this.isLoadingSubject.next(false);
         console.log('Single Room:', room);
+      })
+    );
+  }
+
+  reserveRoom(form: ReservationFetch): Observable<ReservationResponse> {
+    const token = localStorage.getItem('token');
+    console.log(token);
+    const fullUrl = `${environment.apiUrl}/bookings/book`;
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.post<ReservationResponse>(fullUrl, form, { headers }).pipe(
+      tap((response) => {
+        console.log(response);
       })
     );
   }
