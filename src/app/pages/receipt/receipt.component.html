@@ -1,0 +1,36 @@
+<mat-card class="receipt-card">
+  <mat-card-header>
+    <div mat-card-avatar class="avatar-icon"></div>
+    <mat-card-title>Hotel Booking Receipt</mat-card-title>
+    <mat-card-subtitle>Your reservation details</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="receipt-details">
+      <mat-divider></mat-divider>
+      <div class="receipt-item">
+        <span class="label">Room Number:</span>
+        <span>{{ reservation.roomNum }}</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="receipt-item">
+        <span class="label">Start Date:</span>
+        <span>{{ reservation.startDate | date : "fullDate" }}</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="receipt-item">
+        <span class="label">End Date:</span>
+        <span>{{ reservation.endDate | date : "fullDate" }}</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="receipt-item">
+        <span class="label">Total Price:</span>
+        <span class="price">{{ reservation.totalPrice | currency }}</span>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-raised-button color="primary">Download Receipt</button>
+    <button mat-stroked-button color="accent">Close</button>
+  </mat-card-actions>
+</mat-card>

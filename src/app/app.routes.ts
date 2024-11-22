@@ -6,6 +6,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RoomDetailsComponent } from './pages/room-details/room-details.component';
+import { ReceiptComponent } from './pages/receipt/receipt.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'receipt', component: ReceiptComponent },
   {
     path: '',
     redirectTo: '/home',

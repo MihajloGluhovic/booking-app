@@ -104,7 +104,6 @@ export class RoomDetailsComponent implements OnInit {
             this.isLoading = false;
 
             const staticFeatures = room.staticFeatures || {};
-            console.log('Room data:', room);
 
             this.staticFeatures = Object.keys(staticFeatures)
               .filter((key) => staticFeatures[key])
