@@ -25,15 +25,17 @@ export class HomeRoomsComponent implements OnInit {
   constructor(private roomService: RoomService) {}
 
   ngOnInit() {
-    this.roomService.refreshRooms();
+    if (!this.rooms) {
+      this.roomService.refreshRooms();
 
-    this.roomService.rooms$.subscribe(
-      (rooms) => {
-        this.rooms = rooms;
-      },
-      (error) => console.error('Error loading rooms:', error)
-    );
+      this.roomService.rooms$.subscribe(
+        (rooms) => {
+          this.rooms = rooms;
+        },
+        (error) => console.error('Error loading rooms:', error)
+      );
 
-    // Subscribe to loading state to show/hide spinner
+      // Subscribe to loading state to show/hide spinner
+    }
   }
 }

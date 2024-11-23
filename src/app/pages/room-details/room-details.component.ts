@@ -154,12 +154,6 @@ export class RoomDetailsComponent implements OnInit {
       const numOfPeople = this.guestCount;
       const id = this.room.id;
 
-      // console.log('Start Date', startDate);
-      // console.log('End Date', endDate);
-      // console.log('Selected Services', selectedFeatures);
-      // console.log('Guest Count', guestNumber);
-      // console.log('Room ID', id);
-
       const request: ReservationFetch = {
         startDate,
         endDate,
@@ -168,7 +162,19 @@ export class RoomDetailsComponent implements OnInit {
         numOfPeople,
       };
 
-      this.roomService.reserveRoom(request).subscribe((response) => {});
+      this.roomService.reserveRoom(request).subscribe({
+        next: (response) => {
+          const { bookingId } = response; // Destructure bookingId
+          console.log('Booking ID:', bookingId);
+
+          // Navigate to the receipt page using the bookingId
+          this.router.navigate([`/bookings/${bookingId}`]);
+        },
+        error: (err) => {
+          console.error('Reservation failed:', err);
+          // Handle error here
+        },
+      });
     });
   }
   onServiceChange(): void {

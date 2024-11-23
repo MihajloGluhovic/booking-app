@@ -1,20 +1,25 @@
 <div class="profile-container">
   <!-- Profile Header -->
   <div class="profile-header">
-    <h2>My Profile</h2>
-    <p>{{ user?.firstName }} {{ user?.lastName }}</p>
+    <h2>Welcome, {{ user?.firstName }} {{ user?.lastName }}</h2>
+    <p>Your account settings</p>
   </div>
 
   <!-- Deactivate Account Button -->
   <div class="deactivate-section">
-    <button mat-raised-button color="warn" (click)="deactivateAccount()">
+    <button
+      mat-raised-button
+      color="warn"
+      class="deactivate-button"
+      (click)="deactivateAccount()"
+    >
       Deactivate Account
     </button>
   </div>
 
   <!-- Change Password Section -->
   <div class="change-password-section">
-    <h3>Change Password</h3>
+    <h3>Change Your Password</h3>
     <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
       <mat-form-field appearance="outline">
         <mat-label>Current Password</mat-label>
@@ -51,6 +56,7 @@
           mat-raised-button
           color="primary"
           type="submit"
+          class="change-password-button"
           [disabled]="passwordForm.invalid"
         >
           Change Password

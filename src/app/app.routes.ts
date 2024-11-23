@@ -16,7 +16,10 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'receipt', component: ReceiptComponent },
+  {
+    path: 'bookings/:bookingId',
+    component: ReceiptComponent,
+  },
   {
     path: '',
     redirectTo: '/home',

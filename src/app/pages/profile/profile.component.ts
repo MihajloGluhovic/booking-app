@@ -38,6 +38,7 @@ import { UserInterface } from '../../auth/interfaces/user.interface';
 })
 export class ProfileComponent implements OnInit {
   user: UserInterface | undefined | null;
+  token: string | undefined | null;
   passwordForm: FormGroup;
 
   constructor(
@@ -54,8 +55,14 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Load the current user's details
-    this.user = this.authService.currentUserSig();
+    this.authService.checkToken().subscribe((tokenStatus) => {
+      if (tokenStatus === 'invalid' || tokenStatus === 'noToken') {
+        this.router.navigate(['/login']); // Redirect for invalid or missing token
+        console.log('Redirecting to login: Token expired or missing');
+        return;
+      }
+      this.token = this.authService.getToken();
+    });
   }
 
   // Change password function
