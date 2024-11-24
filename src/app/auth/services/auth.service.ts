@@ -26,17 +26,21 @@ export class AuthService {
       this.checkToken().subscribe((status) => {
         if (status === 'valid') {
           this.isAuthenticatedSubject.next(true);
+          console.log('Status: ', status);
         } else {
           this.isAuthenticatedSubject.next(false);
+          console.log('Status: ', status);
         }
       });
     } else {
       this.isAuthenticatedSubject.next(false);
+      console.log('Status: ', status);
     }
   }
 
   checkToken(): Observable<'valid' | 'invalid' | 'noToken'> {
     const token = localStorage.getItem('token');
+    console.log('Check token: ', token);
     if (token) {
       const fullUrl = environment.apiUrl + '/users/check-token';
       const headers = new HttpHeaders({
@@ -88,6 +92,32 @@ export class AuthService {
     );
   }
 
+  updatedLogin(data: LoginRequestInterface): void {
+    const fullUrl = environment.apiUrl + '/users/login';
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+    });
+
+    this.http.post<UserInterface>(fullUrl, data, { headers }).subscribe(
+      (user) => {
+        if (user.isActive) {
+          // User is active, proceed with login
+          console.log('Login successful:', user);
+          this.storeUser(user);
+          this.isAuthenticatedSubject.next(true);
+          this.router.navigate(['/home']);
+        } else {
+          // User is inactive, save data in localStorage
+          console.log('Account is inactive');
+          localStorage.setItem('inactiveUser', JSON.stringify(user));
+        }
+      },
+      (error) => {
+        console.error('Login error:', error);
+      }
+    );
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -118,6 +148,36 @@ export class AuthService {
     });
 
     return this.http.put(fullUrl, {}, { headers, responseType: 'text' });
+  }
+
+  activateAccount(): void {
+    const inactiveUser = localStorage.getItem('inactiveUser');
+    if (!inactiveUser) {
+      console.error('No inactive user found');
+      return;
+    }
+
+    const user = JSON.parse(inactiveUser) as UserInterface;
+    const token = user.token; // Assuming the token is part of UserInterface
+
+    const fullUrl = `${environment.apiUrl}/users/restore-account`;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+    });
+
+    this.http.put(fullUrl, {}, { headers }).subscribe(
+      () => {
+        console.log('Account activated successfully');
+        localStorage.removeItem('inactiveUser'); // Cleanup
+        this.storeUser(user); // Log in the user
+        this.isAuthenticatedSubject.next(true);
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        console.error('Error activating account:', error);
+      }
+    );
   }
 
   private storeUser(user: UserInterface) {

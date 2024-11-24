@@ -3,4 +3,5 @@ export interface UserInterface {
   lastName: string;
   token: string;
   email: string;
+  isActive: boolean;
 }

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../../shared/services/rooms.service';
 import { Receipt } from '../../shared/interfaces/receipt.interface';
 import { MatSpinner } from '@angular/material/progress-spinner';
