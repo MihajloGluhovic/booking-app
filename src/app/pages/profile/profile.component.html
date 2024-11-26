@@ -1,12 +1,13 @@
 <div class="profile-container">
   <!-- Profile Header -->
   <div class="profile-header">
-    <h2>Welcome, {{ user?.firstName }} {{ user?.lastName }}</h2>
-    <p>Your account settings</p>
+    <h2>Welcome, {{ user?.firstName || "User" }} {{ user?.lastName || "" }}</h2>
+    <p>Manage your account settings</p>
   </div>
 
-  <!-- Deactivate Account Button -->
-  <div class="deactivate-section">
+  <!-- Account Actions Section -->
+  <div class="account-actions">
+    <!-- Deactivate Account Button -->
     <button
       mat-raised-button
       color="warn"
@@ -19,9 +20,9 @@
 
   <!-- Change Password Section -->
   <div class="change-password-section">
-    <h3>Change Your Password</h3>
+    <h3>Change Password</h3>
     <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="form-field">
         <mat-label>Current Password</mat-label>
         <input matInput type="password" formControlName="currentPassword" />
         <mat-error
@@ -31,7 +32,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="form-field">
         <mat-label>New Password</mat-label>
         <input matInput type="password" formControlName="newPassword" />
         <mat-error
@@ -41,7 +42,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="form-field">
         <mat-label>Confirm New Password</mat-label>
         <input matInput type="password" formControlName="confirmNewPassword" />
         <mat-error
@@ -56,10 +57,9 @@
           mat-raised-button
           color="primary"
           type="submit"
-          class="change-password-button"
           [disabled]="passwordForm.invalid"
         >
-          Change Password
+          Update Password
         </button>
       </div>
     </form>

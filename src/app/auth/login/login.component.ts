@@ -11,9 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../services/auth.service';
-import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -32,14 +32,15 @@ import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dial
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm: FormGroup;
   hidePassword = true;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -47,31 +48,41 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    const inactiveUser = localStorage.getItem('inactiveUser');
-    if (inactiveUser) {
-      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        data: {
-          title: 'Activate Account',
-          message:
-            'This account is deactivated. Would you like to activate it?',
-        },
-      });
-
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result === true) {
-          this.authService.activateAccount();
-        } else {
-          console.log('User chose not to activate the account');
-        }
-      });
-    }
-  }
-
   onSubmit() {
     if (this.loginForm.valid) {
       console.log('Form submitted successfully');
-      this.authService.login(this.loginForm.value);
+      this.authService.login(this.loginForm.value).subscribe(
+        (user) => {
+          if (user.isActive === true) {
+            // User is active, proceed with login
+            this.authService.storeUser(user);
+            this.authService.isAuthenticatedSubject.next(true);
+            this.router.navigate(['/home']);
+          } else {
+            // User is inactive, save data in storeUser
+            console.log('Account is inactive', user);
+            this.authService.storeUser(user);
+            const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+              data: {
+                title: 'Activate Account',
+                message:
+                  'This account is deactivated. Would you like to activate it?',
+              },
+            });
+
+            dialogRef.afterClosed().subscribe((result) => {
+              if (result === true) {
+                this.authService.activateAccount();
+              } else {
+                console.log('User chose not to activate the account');
+              }
+            });
+          }
+        },
+        (error) => {
+          console.error('Login error:', error);
+        }
+      );
     } else {
       console.log('Form is invalid');
     }

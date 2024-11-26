@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
     // Subscribe to authentication status
     this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
       this.isTokenValid = isAuthenticated;
-      console.log('Navbar token: ', this.isTokenValid);
+      // console.log('Navbar token: ', this.isTokenValid);
     });
   }
 

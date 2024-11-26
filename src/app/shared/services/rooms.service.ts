@@ -16,7 +16,7 @@ export class RoomService {
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
 
   getRooms(): Observable<RoomInterface[]> {
     const fullUrl = environment.apiUrl + '/roomtypes/allroomtypes';

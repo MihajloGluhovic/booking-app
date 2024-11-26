@@ -61,7 +61,17 @@ export class ProfileComponent implements OnInit {
         console.log('Redirecting to login: Token expired or missing');
         return;
       }
+
+      // Retrieve the token
       this.token = this.authService.getToken();
+
+      // Load user details
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        this.user = JSON.parse(storedUser) as UserInterface;
+      } else {
+        console.error('User data not found in localStorage');
+      }
     });
   }
 

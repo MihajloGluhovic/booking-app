@@ -12,7 +12,7 @@ import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 export class AuthService {
   currentUserSig = signal<UserInterface | undefined | null>(undefined);
 
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false); // New BehaviorSubject
+  isAuthenticatedSubject = new BehaviorSubject<boolean>(false); // New BehaviorSubject
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable(); // Expose it as an Observable
 
   constructor(private http: HttpClient, private router: Router) {
@@ -40,7 +40,7 @@ export class AuthService {
 
   checkToken(): Observable<'valid' | 'invalid' | 'noToken'> {
     const token = localStorage.getItem('token');
-    console.log('Check token: ', token);
+    // console.log('Check token: ', token);
     if (token) {
       const fullUrl = environment.apiUrl + '/users/check-token';
       const headers = new HttpHeaders({
@@ -79,43 +79,8 @@ export class AuthService {
     const headers = new HttpHeaders({
       'Ocp-Apim-Subscription-Key': environment.apiKey,
     });
-    return this.http.post<UserInterface>(fullUrl, data, { headers }).subscribe(
-      (user) => {
-        console.log('Login successful:', user);
-        this.storeUser(user);
-        this.isAuthenticatedSubject.next(true); // Emit authenticated
-        this.router.navigate(['/home']);
-      },
-      (error) => {
-        console.error('Login error:', error);
-      }
-    );
-  }
 
-  updatedLogin(data: LoginRequestInterface): void {
-    const fullUrl = environment.apiUrl + '/users/login';
-    const headers = new HttpHeaders({
-      'Ocp-Apim-Subscription-Key': environment.apiKey,
-    });
-
-    this.http.post<UserInterface>(fullUrl, data, { headers }).subscribe(
-      (user) => {
-        if (user.isActive) {
-          // User is active, proceed with login
-          console.log('Login successful:', user);
-          this.storeUser(user);
-          this.isAuthenticatedSubject.next(true);
-          this.router.navigate(['/home']);
-        } else {
-          // User is inactive, save data in localStorage
-          console.log('Account is inactive');
-          localStorage.setItem('inactiveUser', JSON.stringify(user));
-        }
-      },
-      (error) => {
-        console.error('Login error:', error);
-      }
-    );
+    return this.http.post<UserInterface>(fullUrl, data, { headers });
   }
 
   logout() {
@@ -133,12 +98,14 @@ export class AuthService {
       Authorization: `Bearer ${token}`,
     });
 
-    return this.http.put(fullUrl, data, { headers });
+    return this.http.put(fullUrl, data, {
+      headers,
+      responseType: 'text' as 'json',
+    });
   }
 
   deactivateAccount() {
     const token = this.getToken();
-    console.log(token);
     const fullUrl = environment.apiUrl + '/users/deactivate-account';
     console.log(fullUrl);
 
@@ -151,14 +118,7 @@ export class AuthService {
   }
 
   activateAccount(): void {
-    const inactiveUser = localStorage.getItem('inactiveUser');
-    if (!inactiveUser) {
-      console.error('No inactive user found');
-      return;
-    }
-
-    const user = JSON.parse(inactiveUser) as UserInterface;
-    const token = user.token; // Assuming the token is part of UserInterface
+    const token = this.getToken();
 
     const fullUrl = `${environment.apiUrl}/users/restore-account`;
     const headers = new HttpHeaders({
@@ -166,11 +126,10 @@ export class AuthService {
       'Ocp-Apim-Subscription-Key': environment.apiKey,
     });
 
-    this.http.put(fullUrl, {}, { headers }).subscribe(
-      () => {
-        console.log('Account activated successfully');
-        localStorage.removeItem('inactiveUser'); // Cleanup
-        this.storeUser(user); // Log in the user
+    this.http.put<UserInterface>(fullUrl, {}, { headers }).subscribe(
+      (user) => {
+        this.storeUser(user);
+        console.log('Account activated successfully, User: ', user);
         this.isAuthenticatedSubject.next(true);
         this.router.navigate(['/home']);
       },
@@ -180,7 +139,24 @@ export class AuthService {
     );
   }
 
-  private storeUser(user: UserInterface) {
+  getUser(token: string) {
+    const fullUrl = environment.apiUrl + '/users/get-user';
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<UserInterface>(fullUrl, { headers }).subscribe(
+      (user) => {
+        this.storeUser(user);
+      },
+      (error) => {
+        console.error('getUser error: ', error);
+      }
+    );
+  }
+
+  storeUser(user: UserInterface) {
     localStorage.setItem('token', user.token);
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSig.set(user);
@@ -188,6 +164,8 @@ export class AuthService {
 
   getToken(): string | null {
     const currentUser = this.currentUserSig();
-    return currentUser?.token || null;
+    const currentToken = localStorage.getItem('token');
+    console.log(currentUser?.token || null);
+    return currentUser?.token || currentToken;
   }
 }
