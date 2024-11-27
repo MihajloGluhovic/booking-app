@@ -117,7 +117,7 @@ export class AuthService {
     return this.http.put(fullUrl, {}, { headers, responseType: 'text' });
   }
 
-  activateAccount(): void {
+  activateAccount(loginData: LoginRequestInterface): void {
     const token = this.getToken();
 
     const fullUrl = `${environment.apiUrl}/users/restore-account`;
@@ -128,10 +128,20 @@ export class AuthService {
 
     this.http.put<UserInterface>(fullUrl, {}, { headers }).subscribe(
       (user) => {
-        this.storeUser(user);
         console.log('Account activated successfully, User: ', user);
-        this.isAuthenticatedSubject.next(true);
-        this.router.navigate(['/home']);
+
+        // Triggering login method
+        this.login(loginData).subscribe({
+          next: (loggedInUser) => {
+            // Storing the user and navigating to home page
+            this.storeUser(loggedInUser);
+            this.isAuthenticatedSubject.next(true);
+            this.router.navigate(['/home']);
+          },
+          error: (err) => {
+            console.error('Error logging in after activation', err);
+          },
+        });
       },
       (error) => {
         console.error('Error activating account:', error);
@@ -165,7 +175,6 @@ export class AuthService {
   getToken(): string | null {
     const currentUser = this.currentUserSig();
     const currentToken = localStorage.getItem('token');
-    console.log(currentUser?.token || null);
     return currentUser?.token || currentToken;
   }
 }

@@ -1,0 +1,72 @@
+<div class="bookings-wrapper">
+  <!-- Active Bookings -->
+  <div class="bookings-container" *ngIf="activeBookings.length > 0">
+    <h2>Active Bookings</h2>
+    <mat-card
+      class="booking-card"
+      *ngFor="let booking of activeBookings"
+      [ngClass]="{ expired: booking.isExpired }"
+    >
+      <div class="image-container">
+        <img [src]="booking.image" [alt]="booking.roomTitle" />
+      </div>
+      <div class="details-container">
+        <h3>{{ booking.roomTitle }}</h3>
+        <p>{{ booking.description }}</p>
+        <p>
+          <strong>Dates:</strong> {{ booking.startDate | date }} -
+          {{ booking.endDate | date }}
+        </p>
+        <p><strong>Guests:</strong> {{ booking.numOfPeople }}</p>
+        <p><strong>Total Price:</strong> ${{ booking.totalPrice }}</p>
+      </div>
+      <div class="actions-container">
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="navigateToBooking(booking.bookingId)"
+        >
+          View Details
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          (click)="deleteBooking(booking.bookingId)"
+        >
+          Delete
+        </button>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Expired Bookings -->
+  <div
+    class="bookings-container expired-container"
+    *ngIf="expiredBookings.length > 0"
+  >
+    <h2>Expired Bookings</h2>
+    <mat-card
+      class="booking-card"
+      *ngFor="let booking of expiredBookings"
+      [ngClass]="{ expired: booking.isExpired }"
+    >
+      <div class="image-container">
+        <img
+          [src]="booking.image"
+          [alt]="booking.roomTitle"
+          class="expired-image"
+        />
+      </div>
+      <div class="details-container">
+        <h3>{{ booking.roomTitle }}</h3>
+        <p>{{ booking.description }}</p>
+        <p>
+          <strong>Dates:</strong> {{ booking.startDate | date }} -
+          {{ booking.endDate | date }}
+        </p>
+        <p><strong>Guests:</strong> {{ booking.numOfPeople }}</p>
+        <p><strong>Total Price:</strong> ${{ booking.totalPrice }}</p>
+      </div>
+    </mat-card>
+  </div>
+</div>

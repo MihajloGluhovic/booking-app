@@ -11,4 +11,6 @@ export interface RoomInterface {
   dynamicFeatures: Record<string, boolean>; // Key-value pairs where values are boolean
   startDate: Date;
   endDate: Date;
+
+  availableRoomsCount?: number;
 }

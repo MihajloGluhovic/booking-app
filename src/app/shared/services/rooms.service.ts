@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { RoomInterface } from '../interfaces/room.interface';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
-import { AuthService } from '../../auth/services/auth.service';
 import { ReservationFetch } from '../interfaces/reservationFetch.interface';
 import { ReservationResponse } from '../interfaces/reservationResponse.interface';
 import { Receipt } from '../interfaces/receipt.interface';
+import { BookingsInterface } from '../interfaces/bookings.interface';
 
 @Injectable({ providedIn: 'root' })
 export class RoomService {
@@ -105,6 +105,31 @@ export class RoomService {
         );
       })
     );
+  }
+
+  getUserBookings(): Observable<BookingsInterface[]> {
+    const token = localStorage.getItem('token');
+    const fullUrl = `${environment.apiUrl}/bookings/search-bookings`;
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<BookingsInterface[]>(fullUrl, { headers });
+  }
+
+  deleteBooking(bookingId: number): Observable<String> {
+    const token = localStorage.getItem('token');
+    const fullUrl = `${environment.apiUrl}/bookings/delete-booking?bookingId=${bookingId}`;
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.delete<String>(fullUrl, {
+      headers,
+      responseType: 'text' as 'json',
+    });
   }
 
   refreshRooms(): void {

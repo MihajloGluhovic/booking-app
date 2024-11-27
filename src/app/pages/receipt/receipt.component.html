@@ -5,12 +5,11 @@
         <img [src]="receipt.image" alt="Room Image" />
       </div>
       <mat-card-title>{{ receipt.roomTitle }}</mat-card-title>
-      <mat-card-subtitle>Booking ID: {{ receipt.bookingId }}</mat-card-subtitle>
+      <mat-card-subtitle>Room Number: {{ receipt.roomNum }}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
       <div class="details">
-        <p><strong>Room Number:</strong> {{ receipt.roomNum }}</p>
         <p><strong>Description:</strong> {{ receipt.description }}</p>
         <p>
           <strong>Start Date:</strong>

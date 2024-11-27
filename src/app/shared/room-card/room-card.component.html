@@ -8,10 +8,12 @@
 
   <mat-card-content>
     <p>{{ room.description }}</p>
-    <p>Rating: {{ room.rating }} / 10</p>
   </mat-card-content>
 
   <mat-card-actions>
+    <p *ngIf="room.availableRoomsCount">
+      Available rooms: {{ room.availableRoomsCount }}
+    </p>
     <button mat-button color="primary" [routerLink]="['/room', room.id]">
       Book Now
     </button>

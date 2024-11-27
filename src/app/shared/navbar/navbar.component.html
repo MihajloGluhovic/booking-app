@@ -10,6 +10,7 @@
     <div *ngIf="isTokenValid; else guestButtons">
       <!-- Authenticated User Actions -->
       <button routerLink="/about" mat-flat-button>About Us</button>
+      <button routerLink="/bookings" mat-flat-button>My Bookings</button>
       <button routerLink="/contact" mat-flat-button>Contact</button>
       <button routerLink="/profile" mat-flat-button>Profile</button>
       <button (click)="onLogout()" mat-flat-button>Log Out</button>

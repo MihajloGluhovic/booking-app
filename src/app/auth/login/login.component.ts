@@ -53,38 +53,78 @@ export class LoginComponent {
       console.log('Form submitted successfully');
       this.authService.login(this.loginForm.value).subscribe(
         (user) => {
-          if (user.isActive === true) {
+          if (user.isActive) {
             // User is active, proceed with login
             this.authService.storeUser(user);
             this.authService.isAuthenticatedSubject.next(true);
             this.router.navigate(['/home']);
           } else {
-            // User is inactive, save data in storeUser
+            // User is inactive, ask for account activation
             console.log('Account is inactive', user);
-            this.authService.storeUser(user);
+            this.authService.storeUser(user); // Store inactive user
+
             const dialogRef = this.dialog.open(ConfirmDialogComponent, {
               data: {
                 title: 'Activate Account',
                 message:
-                  'This account is deactivated. Would you like to activate it?',
+                  'This account is deactivated. Would you like to activate it and log in?',
               },
             });
 
             dialogRef.afterClosed().subscribe((result) => {
               if (result === true) {
-                this.authService.activateAccount();
+                // Trigger account activation
+                this.authService.activateAccount(this.loginForm.value);
               } else {
                 console.log('User chose not to activate the account');
               }
             });
           }
         },
-        (error) => {
-          console.error('Login error:', error);
+        (err) => {
+          console.error(err);
         }
       );
     } else {
       console.log('Form is invalid');
     }
   }
+  //   if (this.loginForm.valid) {
+  //     console.log('Form submitted successfully');
+  //     this.authService.login(this.loginForm.value).subscribe(
+  //       (user) => {
+  //         if (user.isActive === true) {
+  //           // User is active, proceed with login
+  //           this.authService.storeUser(user);
+  //           this.authService.isAuthenticatedSubject.next(true);
+  //           this.router.navigate(['/home']);
+  //         } else {
+  //           // User is inactive, save data in storeUser
+  //           console.log('Account is inactive', user);
+  //           this.authService.storeUser(user);
+  //           const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+  //             data: {
+  //               title: 'Activate Account',
+  //               message:
+  //                 'This account is deactivated. Would you like to activate it?',
+  //             },
+  //           });
+  //           dialogRef.afterClosed().subscribe((result) => {
+  //             if (result === true) {
+  //               this.authService.activateAccount(this.loginForm.value);
+  //             } else {
+  //               console.log('User chose not to activate the account');
+  //             }
+  //           });
+  //         }
+  //       },
+  //       (error) => {
+  //         console.error('Login error:', error);
+  //       }
+  //     );
+  //   } else {
+  //     console.log('Form is invalid');
+  //   }
+  // }
+  // }
 }
