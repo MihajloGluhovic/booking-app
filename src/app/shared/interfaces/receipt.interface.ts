@@ -12,5 +12,6 @@ export interface Receipt {
   featurePrices: string;
   pricePerNight: number;
 
+  isReviewed: boolean;
   isExpired: boolean;
 }

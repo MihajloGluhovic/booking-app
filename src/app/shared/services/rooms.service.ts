@@ -7,6 +7,8 @@ import { ReservationFetch } from '../interfaces/reservationFetch.interface';
 import { ReservationResponse } from '../interfaces/reservationResponse.interface';
 import { Receipt } from '../interfaces/receipt.interface';
 import { BookingsInterface } from '../interfaces/bookings.interface';
+import { ReviewResponse } from '../interfaces/reviewResponse.interface';
+import { ReviewFetch } from '../interfaces/reviewFetch.interface';
 
 @Injectable({ providedIn: 'root' })
 export class RoomService {
@@ -130,6 +132,17 @@ export class RoomService {
       headers,
       responseType: 'text' as 'json',
     });
+  }
+
+  postReview(data: ReviewFetch): Observable<ReviewResponse> {
+    const token = localStorage.getItem('token');
+    const fullUrl = `${environment.apiUrl}/bookings/post-review`;
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.post<ReviewResponse>(fullUrl, data, { headers });
   }
 
   refreshRooms(): void {

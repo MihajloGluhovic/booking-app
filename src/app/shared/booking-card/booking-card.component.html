@@ -18,7 +18,7 @@
           {{ booking.endDate | date }}
         </p>
         <p><strong>Guests:</strong> {{ booking.numOfPeople }}</p>
-        <p><strong>Total Price:</strong> ${{ booking.totalPrice }}</p>
+        <p><strong>Total Price:</strong> {{ booking.totalPrice | currency }}</p>
       </div>
       <div class="actions-container">
         <button
@@ -65,7 +65,7 @@
           {{ booking.endDate | date }}
         </p>
         <p><strong>Guests:</strong> {{ booking.numOfPeople }}</p>
-        <p><strong>Total Price:</strong> ${{ booking.totalPrice }}</p>
+        <p><strong>Total Price:</strong> {{ booking.totalPrice | currency }}</p>
       </div>
     </mat-card>
   </div>

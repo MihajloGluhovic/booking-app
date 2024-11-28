@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+  margin-bottom: 5rem;
 }
 
 .receipt-card {
@@ -34,4 +35,54 @@ ul {
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+}
+
+.star-button {
+  font-size: 36px; /* Adjust the size of the stars */
+  padding: 0;
+  transition: transform 0.2s ease-in-out; /* Smooth transition */
+}
+
+.star-button:hover {
+  transform: scale(1.2); /* Zoom effect on hover */
+}
+
+.star-button .mat-icon {
+  color: #ccc; /* Default color for unfilled stars */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.star-button:hover .mat-icon {
+  color: #ff9800; /* Color change on hover */
+}
+
+.star-button.active .mat-icon {
+  color: #ff9800; /* Filled color */
+}
+
+/* Optional: Change the background color of the button when active */
+.star-button.active {
+  background-color: rgba(255, 152, 0, 0.1); /* Light orange background */
+  border-radius: 50%;
+}
+body-2 {
+  font-size: 16px;
+}
+
+mat-error {
+  color: #f44336;
 }

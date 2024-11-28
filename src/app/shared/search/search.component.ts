@@ -45,14 +45,16 @@ export class SearchComponent {
     private dateService: DateService,
     private roomsService: RoomService
   ) {
+    // Create the form with startDate and endDate fields
     this.dateRangeForm = this.fb.group(
       {
         startDate: [null, Validators.required],
         endDate: [null, Validators.required],
       },
-      { validators: dateRangeValidator() }
+      { validators: dateRangeValidator() } // Custom validator for date range
     );
   }
+
   search() {
     const startDate = this.dateService.formatDate(
       this.dateRangeForm.get('startDate')?.value
@@ -60,6 +62,7 @@ export class SearchComponent {
     const endDate = this.dateService.formatDate(
       this.dateRangeForm.get('endDate')?.value
     );
+
     const request = `available?startDate=${startDate}&endDate=${endDate}`;
     localStorage.setItem('startDateStorage', startDate);
     localStorage.setItem('endDateStorage', endDate);

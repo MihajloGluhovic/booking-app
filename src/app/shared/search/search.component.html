@@ -1,6 +1,6 @@
+<!--
 <h2 class="header">Please select a date</h2>
 <div class="search-bar">
-  <!-- Search input -->
 
   <form [formGroup]="dateRangeForm">
     <mat-form-field appearance="outline">
@@ -18,6 +18,36 @@
       <input matInput [matDatepicker]="endDate" formControlName="endDate" />
       <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
       <mat-datepicker #endDate></mat-datepicker>
+    </mat-form-field>
+  </form>
+
+  <button
+    class="submit"
+    mat-raised-button
+    color="primary"
+    (click)="search()"
+    [disabled]="!dateRangeForm.valid"
+  >
+    Search
+  </button>
+</div>
+  -->
+<h2 class="header">Please select a date</h2>
+<div class="search-bar">
+  <!-- Date range picker -->
+  <form [formGroup]="dateRangeForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select a date range</mat-label>
+      <mat-date-range-input [formGroup]="dateRangeForm" [rangePicker]="picker">
+        <input
+          matStartDate
+          formControlName="startDate"
+          placeholder="Start date"
+        />
+        <input matEndDate formControlName="endDate" placeholder="End date" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
   </form>
 

@@ -32,6 +32,47 @@
         </ul>
         <p *ngIf="receipt.isExpired" class="expired">Booking Expired</p>
       </div>
+
+      <!-- Review Form -->
+      <mat-card *ngIf="!receipt.reviewExists">
+        <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+          <h3>Rate our services</h3>
+
+          <!-- Star Rating -->
+          <div class="star-rating">
+            <button
+              [ngClass]="{ active: i < rating }"
+              [color]="i < rating ? 'primary' : 'accent'"
+              mat-icon-button
+              *ngFor="let ratingId of ratingArr; index as i"
+              [color]="i < rating ? 'primary' : 'accent'"
+              [id]="'star_' + i"
+              (click)="onStarClick(i + 1, $event)"
+              [matTooltip]="i + 1 + ' stars'"
+              matTooltipPosition="above"
+              class="star-button"
+            >
+              <mat-icon>{{ showIcon(i) }}</mat-icon>
+            </button>
+          </div>
+
+          <!-- Textarea for comments -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput formControlName="comment" rows="4"></textarea>
+          </mat-form-field>
+
+          <!-- Submit Button -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!reviewForm.valid"
+          >
+            Submit Review
+          </button>
+        </form>
+      </mat-card>
     </mat-card-content>
   </mat-card>
 </div>

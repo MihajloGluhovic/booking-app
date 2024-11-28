@@ -3,7 +3,7 @@ export interface RoomInterface {
   description: string;
   price: number;
   image: string;
-  rating: number;
+  // rating: number;
   maxOccupancy: number;
   fullDescription: string;
   roomId: number;
