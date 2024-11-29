@@ -145,6 +145,34 @@ export class RoomService {
     return this.http.post<ReviewResponse>(fullUrl, data, { headers });
   }
 
+  editReview(data: ReviewFetch): Observable<ReviewResponse> {
+    const token = localStorage.getItem('token');
+    const fullUrl = `${environment.apiUrl}/bookings/edit-review`;
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.put<ReviewResponse>(fullUrl, data, {
+      headers,
+      responseType: 'text' as 'json',
+    });
+  }
+
+  deleteReview(bookingId: number): Observable<ReviewResponse> {
+    const token = localStorage.getItem('token');
+    const fullUrl = `${environment.apiUrl}/bookings/delete-review?bookingId=${bookingId}`;
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.delete<ReviewResponse>(fullUrl, {
+      headers,
+      responseType: 'text' as 'json',
+    });
+  }
+
   refreshRooms(): void {
     this.getRooms().subscribe();
   }

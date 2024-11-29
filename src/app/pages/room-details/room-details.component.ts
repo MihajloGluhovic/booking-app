@@ -7,7 +7,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { RoomInterface } from '../../shared/interfaces/room.interface';
 import { CommonModule } from '@angular/common';
 
 import { MatChipsModule } from '@angular/material/chips';
@@ -16,13 +15,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { RoomService } from '../../shared/services/rooms.service';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../../auth/services/auth.service';
 import { ReservationFetch } from '../../shared/interfaces/reservationFetch.interface';
+import { RoomInterface } from '../../shared/interfaces/room.interface';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-room-details',
@@ -33,6 +33,7 @@ import { ReservationFetch } from '../../shared/interfaces/reservationFetch.inter
     RouterModule,
     ReactiveFormsModule,
 
+    MatListModule,
     MatChipsModule,
     MatCardModule,
     MatIconModule,

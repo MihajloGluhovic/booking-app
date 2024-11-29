@@ -44,6 +44,7 @@ ul {
 mat-form-field {
   width: 100%;
   margin-bottom: 1rem;
+  border: 0;
 }
 
 .star-rating {
@@ -85,4 +86,63 @@ body-2 {
 
 mat-error {
   color: #f44336;
+}
+
+.review-card {
+  margin: 1rem 0;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  justify-content: flex-end;
+}
+
+.star {
+  color: #ffca28;
+  margin-left: 0.2rem;
+}
+
+.comment {
+  margin: 1rem 0;
+  font-size: 16px;
+}
+
+.review-date {
+  text-align: right;
+  font-size: 14px;
+  color: #999;
+  font-style: italic;
+}
+
+.actions {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 1rem;
+}
+
+button.active mat-icon {
+  color: #ffca28;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* General Button Styling */
+.actions button {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

@@ -73,6 +73,88 @@
           </button>
         </form>
       </mat-card>
+      <mat-card *ngIf="receipt.reviewExists" class="review-card">
+        <!-- Show Review if Not Editing -->
+        <ng-container *ngIf="!isEditing">
+          <mat-card-header>
+            <!-- Rating on the Right -->
+            <mat-card-title class="rating">
+              {{ receipt.review.rating }} / 5
+              <mat-icon class="star">star</mat-icon>
+            </mat-card-title>
+          </mat-card-header>
+
+          <!-- Comment Section -->
+          <mat-card-content class="comment">
+            <p>{{ receipt.review.comment }}</p>
+          </mat-card-content>
+
+          <!-- Footer Section -->
+          <mat-card-footer>
+            <mat-card-subtitle class="review-date">
+              {{ receipt.review.createdAt | date : "mediumDate" }}
+            </mat-card-subtitle>
+            <div class="actions">
+              <!-- Edit Button -->
+              <button mat-button color="primary" (click)="editReview()">
+                Edit
+              </button>
+
+              <!-- Delete Button -->
+              <button mat-button color="warn" (click)="deleteReview()">
+                Delete Review
+              </button>
+            </div>
+          </mat-card-footer>
+        </ng-container>
+
+        <!-- Edit Review Section -->
+        <div *ngIf="isEditing" class="edit-review">
+          <form [formGroup]="editReviewForm" (ngSubmit)="submitEditedReview()">
+            <!-- Star Rating -->
+            <div class="star-rating">
+              <button
+                [ngClass]="{ active: i < editRating }"
+                mat-icon-button
+                *ngFor="let ratingId of ratingArr; index as i"
+                (click)="onEditStarClick(i + 1, $event)"
+                [matTooltip]="i + 1 + ' stars'"
+                matTooltipPosition="above"
+              >
+                <mat-icon>{{ showEditIcon(i) }}</mat-icon>
+              </button>
+            </div>
+
+            <!-- Textarea for comments -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Edit your comment</mat-label>
+              <textarea matInput formControlName="comment" rows="4"></textarea>
+            </mat-form-field>
+
+            <div class="buttons">
+              <!-- Save Button -->
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="!editReviewForm.valid"
+              >
+                Save Changes
+              </button>
+
+              <!-- Cancel Button -->
+              <button
+                mat-button
+                color="warn"
+                type="button"
+                (click)="cancelEdit()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-card>
     </mat-card-content>
   </mat-card>
 </div>

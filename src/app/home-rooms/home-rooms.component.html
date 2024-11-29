@@ -1,4 +1,5 @@
 <div class="container">
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <app-room-card *ngFor="let room of rooms" [roomInfo]="room"></app-room-card>
+  <div *ngIf="rooms === []">No available rooms for this date!</div>
 </div>

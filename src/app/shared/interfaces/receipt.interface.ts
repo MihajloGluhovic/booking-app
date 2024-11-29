@@ -1,3 +1,5 @@
+import { ReviewInterface } from './review.interface';
+
 export interface Receipt {
   bookingId: number;
   startDate: Date;
@@ -13,5 +15,6 @@ export interface Receipt {
   pricePerNight: number;
 
   isReviewed: boolean;
+  review: ReviewInterface;
   isExpired: boolean;
 }

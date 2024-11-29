@@ -56,6 +56,10 @@ export class ReceiptComponent implements OnInit {
   starCount: number = 5; // Default to 5 stars
   color: string = 'accent'; // Material color (can change to 'primary' or 'warn')
 
+  isEditing = false;
+  editReviewForm: FormGroup;
+  editRating: any;
+
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
@@ -65,6 +69,9 @@ export class ReceiptComponent implements OnInit {
     this.reviewForm = this.fb.group({
       comment: ['', Validators.maxLength(250)],
       rating: [null, Validators.required],
+    });
+    this.editReviewForm = this.fb.group({
+      comment: ['', [Validators.required, Validators.maxLength(500)]],
     });
   }
 
@@ -127,5 +134,66 @@ export class ReceiptComponent implements OnInit {
         price: prices[index]?.trim() || '0.00',
       }));
     }
+  }
+
+  // Toggle to edit mode
+  editReview() {
+    this.isEditing = true;
+    this.editRating = this.receipt.review.rating; // Set initial rating
+    this.editReviewForm.patchValue({
+      comment: this.receipt.review.comment,
+    });
+  }
+
+  // Handle star click for editing
+  onEditStarClick(star: number, event: Event) {
+    event.preventDefault(); // Prevent the default form submit behavior
+    this.editRating = star;
+  }
+
+  // Return icon for star based on rating
+  showEditIcon(index: number): string {
+    return index < this.editRating ? 'star' : 'star_border';
+  }
+
+  // Submit the edited review
+  submitEditedReview() {
+    if (this.editReviewForm.valid) {
+      const updatedReview = {
+        bookingId: this.receipt.bookingId,
+        comment: this.editReviewForm.value.comment,
+        rating: this.editRating,
+      };
+      console.log('Updated Review:', updatedReview);
+      this.roomService.editReview(updatedReview).subscribe(
+        (response) => {
+          console.log('Successfully edited review: ', response);
+        },
+        (error) => {
+          console.error('Error editing review: ', error);
+        }
+      );
+
+      // Save logic goes here (emit to parent or update API)
+      this.receipt.review = updatedReview;
+      this.isEditing = false;
+    }
+  }
+
+  deleteReview() {
+    const bookingId = this.receipt.bookingId;
+    this.roomService.deleteReview(bookingId).subscribe(
+      (response) => {
+        console.log('Successfully deleted review: ', response);
+        this.router.navigate(['/bookings']);
+      },
+      (err) => {
+        console.error('Error deleting review: ', err);
+      }
+    );
+  }
+  // Cancel edit mode
+  cancelEdit() {
+    this.isEditing = false;
   }
 }

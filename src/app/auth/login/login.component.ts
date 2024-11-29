@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -20,7 +20,6 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule,
-    ConfirmDialogComponent,
 
     MatDialogModule,
     MatInputModule,
@@ -89,42 +88,4 @@ export class LoginComponent {
       console.log('Form is invalid');
     }
   }
-  //   if (this.loginForm.valid) {
-  //     console.log('Form submitted successfully');
-  //     this.authService.login(this.loginForm.value).subscribe(
-  //       (user) => {
-  //         if (user.isActive === true) {
-  //           // User is active, proceed with login
-  //           this.authService.storeUser(user);
-  //           this.authService.isAuthenticatedSubject.next(true);
-  //           this.router.navigate(['/home']);
-  //         } else {
-  //           // User is inactive, save data in storeUser
-  //           console.log('Account is inactive', user);
-  //           this.authService.storeUser(user);
-  //           const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-  //             data: {
-  //               title: 'Activate Account',
-  //               message:
-  //                 'This account is deactivated. Would you like to activate it?',
-  //             },
-  //           });
-  //           dialogRef.afterClosed().subscribe((result) => {
-  //             if (result === true) {
-  //               this.authService.activateAccount(this.loginForm.value);
-  //             } else {
-  //               console.log('User chose not to activate the account');
-  //             }
-  //           });
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error('Login error:', error);
-  //       }
-  //     );
-  //   } else {
-  //     console.log('Form is invalid');
-  //   }
-  // }
-  // }
 }

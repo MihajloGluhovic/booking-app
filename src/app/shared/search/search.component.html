@@ -1,37 +1,3 @@
-<!--
-<h2 class="header">Please select a date</h2>
-<div class="search-bar">
-
-  <form [formGroup]="dateRangeForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Start Date</mat-label>
-      <input matInput [matDatepicker]="startDate" formControlName="startDate" />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="startDate"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #startDate></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>End Date</mat-label>
-      <input matInput [matDatepicker]="endDate" formControlName="endDate" />
-      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-      <mat-datepicker #endDate></mat-datepicker>
-    </mat-form-field>
-  </form>
-
-  <button
-    class="submit"
-    mat-raised-button
-    color="primary"
-    (click)="search()"
-    [disabled]="!dateRangeForm.valid"
-  >
-    Search
-  </button>
-</div>
-  -->
 <h2 class="header">Please select a date</h2>
 <div class="search-bar">
   <!-- Date range picker -->
@@ -49,6 +15,9 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
+    <mat-error *ngIf="dateRangeForm.get('startDate')?.hasError('required')">
+      Date is required
+    </mat-error>
   </form>
 
   <button

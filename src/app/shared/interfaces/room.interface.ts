@@ -1,9 +1,11 @@
+import { ReviewInterface } from './review.interface';
+
 export interface RoomInterface {
   id: number;
   description: string;
   price: number;
   image: string;
-  // rating: number;
+  reviews: ReviewInterface[];
   maxOccupancy: number;
   fullDescription: string;
   roomId: number;

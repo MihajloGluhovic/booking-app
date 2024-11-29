@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RoomCardComponent } from '../shared/room-card/room-card.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,9 +22,13 @@ export class HomeRoomsComponent implements OnInit {
   rooms?: RoomInterface[];
   isLoading: boolean = false;
 
+  isSearched: boolean = false;
+
   constructor(private roomService: RoomService) {}
 
   ngOnInit() {
+    localStorage.removeItem('endDateStorage');
+    localStorage.removeItem('startDateStorage');
     if (!this.rooms) {
       this.roomService.refreshRooms();
 
@@ -34,8 +38,6 @@ export class HomeRoomsComponent implements OnInit {
         },
         (error) => console.error('Error loading rooms:', error)
       );
-
-      // Subscribe to loading state to show/hide spinner
     }
   }
 }

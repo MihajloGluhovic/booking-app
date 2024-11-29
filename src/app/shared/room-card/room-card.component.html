@@ -14,7 +14,14 @@
     <p *ngIf="room.availableRoomsCount">
       Available rooms: {{ room.availableRoomsCount }}
     </p>
-    <button mat-button color="primary" [routerLink]="['/room', room.id]">
+    <button
+      [disabled]="!isSearched"
+      mat-button
+      color="primary"
+      [routerLink]="['/room', room.id]"
+      matTooltip="You must search first"
+      [matTooltipDisabled]="isSearched"
+    >
       Book Now
     </button>
   </mat-card-actions>
