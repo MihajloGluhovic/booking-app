@@ -1,18 +1,41 @@
-.strong {
-  font-weight: 500;
+section {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 250px;
 }
 
-section {
-  /* display: flex;
-  align-items: start;
-  flex-direction: column; */
+.strong {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3498db;
+}
 
-  background-color: rgb(245, 245, 245);
-  padding-top: 0.5rem;
-  padding-left: 1.5rem;
-  padding-right: 3rem;
-  padding-bottom: 1.5rem;
-  border-radius: 12px;
+mat-checkbox {
+  display: block;
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #505965;
+}
 
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+button {
+  width: 100%;
+  margin-top: 1.5rem;
+  background: #3498db;
+  color: white;
+  padding: 12px;
+  border-radius: 25px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }

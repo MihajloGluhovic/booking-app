@@ -1,13 +1,17 @@
 .room-container {
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 40px 20px;
   margin-bottom: 60px;
+  background-color: #f8f9fa;
 }
 
 .room-card {
   max-width: 800px;
   width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
 }
 
 .mat-card-content p {
@@ -21,9 +25,11 @@
 
 .features-section mat-chip {
   margin: 5px;
-  background-color: #e0f7fa;
-  color: #00695c;
-  font-weight: bold;
+  background-color: #f0f7ff;
+  color: #1976d2;
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 8px 16px;
 }
 
 .services-section {
@@ -42,14 +48,18 @@
 .guest-controls {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .guest-count {
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  min-width: 30px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #2c3e50;
+  min-width: 40px;
 }
 
 .date-selection {
@@ -59,6 +69,11 @@
 .date-container {
   display: flex;
   gap: 20px;
+  margin-top: 10px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .date-field {
@@ -71,75 +86,236 @@ mat-card-actions {
 
 .reviews-section {
   margin-top: 2rem;
+  margin-bottom: 6rem;
   max-width: 800px;
-  margin: auto;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
 }
 
-.review-card {
-  margin: 1rem 0;
+.reviews-section .reviews-title {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.reviews-section .review-card {
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.reviews-section .review-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.3s ease;
+}
+
+.reviews-section .review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-radius: 8px;
-
-  &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  }
 }
 
-mat-card-header.rating-header {
+.reviews-section .reviewer-info {
   display: flex;
-  justify-content: space-between; /* Ensures elements are at far ends */
-  align-items: center; /* Align items vertically in the same line */
-  padding: 0.5rem 0;
+  align-items: center;
+  gap: 1rem;
 }
 
-.first-name {
-  font-size: 20px; /* Slightly larger for emphasis */
-  padding-left: 15px;
-  padding-bottom: 15px;
-  font-weight: bold;
-  color: #3f51b5;
-}
-
-.rating {
-  font-size: 20px; /* Matching the size of the name */
-  font-weight: bold;
+.reviews-section .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #1976d2;
+  color: white;
   display: flex;
-  align-items: center; /* Aligns text and icon */
-  padding: 0;
-  padding-bottom: 15px;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
-.star {
-  margin-left: 0.3rem;
-  color: #ffca28;
-
-  font-size: 22px;
+.reviews-section .name-date mat-card-title {
+  font-size: 1rem;
+  margin-bottom: 4px;
 }
 
-mat-card-content.comment {
-  text-align: left;
-  font-size: 16px;
-  margin: 0.8rem 0; /* Proper spacing between sections */
-  color: #555;
-  white-space: normal; /* Ensures text wraps onto the next line */
-  word-wrap: break-word; /* Breaks words if they are too long */
-  overflow: visible; /* Ensures no text is hidden */
+.reviews-section .name-date mat-card-subtitle {
+  font-size: 0.85rem;
+  margin: 0;
 }
 
-mat-card-footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 0.5rem;
-  font-size: 14px;
-  color: #999;
-}
-
-.review-date {
+.reviews-section .rating-display {
   text-align: right;
-  color: #999;
-  font-size: 12px;
-  font-style: italic;
+}
+
+.reviews-section .rating-display .stars {
+  display: flex;
+  gap: 2px;
+}
+
+.reviews-section .rating-display .star-icon {
+  color: #e0e0e0;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.reviews-section .rating-display .star-icon.filled {
+  color: #ffc107;
+}
+
+.reviews-section .rating-display .rating-text {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 4px;
+  display: block;
+}
+
+.reviews-section .review-content {
+  padding: 0 1rem 1rem;
+}
+
+.reviews-section .review-content p {
+  margin: 0;
+  line-height: 1.6;
+  color: #444;
+}
+
+.room-header {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px 16px 0 0;
+  height: 400px;
+}
+
+.room-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.room-image:hover {
+  transform: scale(1.05);
+}
+
+.price-tag {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px 24px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+}
+
+.price-amount {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.price-period {
+  font-size: 14px;
+  color: #666;
+}
+
+.room-details-content {
+  padding: 30px;
+}
+
+.room-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 16px;
+}
+
+.room-description {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #4a5568;
+  margin-bottom: 24px;
+}
+
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.amenity-item:hover {
+  transform: translateY(-2px);
+  background: #f0f7ff;
+}
+
+.amenity-icon {
+  color: #1976d2;
+  font-size: 24px;
+}
+
+.booking-section {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin-top: 30px;
+}
+
+.booking-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.book-now-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 24px;
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-now-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3);
+}
+
+.reviews-header {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.reviews-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.reviews-subtitle {
+  font-size: 16px;
+  color: #666;
 }

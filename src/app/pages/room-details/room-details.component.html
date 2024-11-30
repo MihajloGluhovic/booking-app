@@ -126,26 +126,34 @@
   </mat-card>
 </div>
 <div class="reviews-section" *ngIf="(room?.reviews?.length ?? 0) > 0">
-  <h2>Reviews</h2>
+  <h2 class="reviews-title">Guest Reviews</h2>
   <mat-card class="review-card" *ngFor="let review of room?.reviews">
-    <!-- Header Section: First Name (Left) and Rating (Right) -->
-    <mat-card-header class="rating-header">
-      <mat-card-title class="first-name">{{ review.firstName }}</mat-card-title>
-      <mat-card-content class="rating">
-        {{ review.rating }} / 5
-        <mat-icon class="star">star</mat-icon>
-      </mat-card-content>
-    </mat-card-header>
-    <!-- Comment Section -->
-    <mat-card-content class="comment">
-      {{ review.comment }}
-    </mat-card-content>
+    <div class="review-header">
+      <div class="reviewer-info">
+        <div class="avatar">{{ review.firstName.charAt(0) }}</div>
+        <div class="name-date">
+          <mat-card-title>{{ review.firstName }}</mat-card-title>
+          <mat-card-subtitle>{{
+            review.createdAt | date : "MMM d, yyyy"
+          }}</mat-card-subtitle>
+        </div>
+      </div>
+      <div class="rating-display">
+        <div class="stars">
+          <mat-icon
+            *ngFor="let star of [1, 2, 3, 4, 5]"
+            [class.filled]="star <= review.rating"
+            class="star-icon"
+          >
+            star
+          </mat-icon>
+        </div>
+        <span class="rating-text">{{ review.rating }}/5</span>
+      </div>
+    </div>
 
-    <!-- Footer Section: Date -->
-    <mat-card-footer>
-      <mat-card-subtitle class="review-date">
-        {{ review.createdAt | date : "mediumDate" }}
-      </mat-card-subtitle>
-    </mat-card-footer>
+    <mat-card-content class="review-content">
+      <p>{{ review.comment }}</p>
+    </mat-card-content>
   </mat-card>
 </div>

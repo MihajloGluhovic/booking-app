@@ -7,25 +7,138 @@
 }
 
 .room-card {
-  width: 300px;
-  margin: 10px;
+  width: 100%;
+  max-width: 380px;
+  margin: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-mat-card-header {
-  text-align: left;
-}
-
-mat-card-content p {
-  font-size: 14px;
-  color: #757575;
-}
-
-mat-card-actions {
+/* List view styles */
+:host-context(.list) .room-card {
+  max-width: 100%;
   display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin: 8px 0;
+}
+
+:host-context(.list) img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
+:host-context(.list) mat-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  padding: 20px 30px;
+}
+
+:host-context(.list) .room-title {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+:host-context(.list) .room-description {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+:host-context(.list) .price-container {
+  text-align: right;
+  margin: 15px 0;
+}
+
+:host-context(.list) .view-details-btn {
+  width: 200px;
+  align-self: flex-end;
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 img {
-  max-height: 400px;
+  width: 100%;
+  height: 250px;
   object-fit: cover;
+}
+
+mat-card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.room-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0 0 10px 0;
+  font-weight: 500;
+}
+
+.room-description {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.price-container {
+  margin: 20px 0;
+}
+
+.currency {
+  font-size: 1.2rem;
+  color: #e74c3c;
+  vertical-align: top;
+}
+
+.price {
+  font-size: 2rem;
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.per-night {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.view-details-btn {
+  width: 80%;
+  padding: 10px;
+  margin: 10px auto;
+  background: transparent;
+  border: 2px solid #333;
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.view-details-btn:hover:not([disabled]) {
+  background: #333;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  :host-context(.list) .room-card {
+    flex-direction: column;
+  }
+
+  :host-context(.list) img {
+    width: 100%;
+    height: 250px;
+  }
+
+  :host-context(.list) .view-details-btn {
+    width: 100%;
+  }
 }

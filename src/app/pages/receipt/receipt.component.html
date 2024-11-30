@@ -1,117 +1,168 @@
 <div class="receipt-container" *ngIf="receipt; else loadingTemplate">
   <mat-card class="receipt-card">
-    <mat-card-header>
-      <div mat-card-avatar class="header-avatar">
+    <mat-card-header class="modern-header">
+      <div class="header-image">
         <img [src]="receipt.image" alt="Room Image" />
+        <div class="header-content">
+          <mat-card-title>{{ receipt.roomTitle }}</mat-card-title>
+          <mat-card-subtitle>Room {{ receipt.roomNum }}</mat-card-subtitle>
+        </div>
       </div>
-      <mat-card-title>{{ receipt.roomTitle }}</mat-card-title>
-      <mat-card-subtitle>Room Number: {{ receipt.roomNum }}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-      <div class="details">
-        <p><strong>Description:</strong> {{ receipt.description }}</p>
-        <p>
-          <strong>Start Date:</strong>
-          {{ receipt.startDate | date : "mediumDate" }}
-        </p>
-        <p>
-          <strong>End Date:</strong> {{ receipt.endDate | date : "mediumDate" }}
-        </p>
-        <p><strong>Number of People:</strong> {{ receipt.numOfPeople }}</p>
-        <p>
-          <strong>Price Per Night:</strong>
-          {{ receipt.pricePerNight | currency }}
-        </p>
-        <p><strong>Total Price:</strong> {{ receipt.totalPrice | currency }}</p>
-        <p><strong>Features:</strong></p>
-        <ul>
-          <li *ngFor="let feature of features">
-            {{ feature.name }} - {{ feature.price | currency }}
-          </li>
-        </ul>
-        <p *ngIf="receipt.isExpired" class="expired">Booking Expired</p>
+      <div class="booking-summary">
+        <div class="date-range">
+          <div class="date-item">
+            <span class="label">Check-in</span>
+            <span class="value">{{
+              receipt.startDate | date : "mediumDate"
+            }}</span>
+          </div>
+          <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+          <div class="date-item">
+            <span class="label">Check-out</span>
+            <span class="value">{{
+              receipt.endDate | date : "mediumDate"
+            }}</span>
+          </div>
+        </div>
+
+        <div class="guest-info">
+          <mat-icon>person</mat-icon>
+          <span
+            >{{ receipt.numOfPeople }}
+            {{ receipt.numOfPeople === 1 ? "Guest" : "Guests" }}</span
+          >
+        </div>
       </div>
 
-      <!-- Review Form -->
-      <mat-card *ngIf="!receipt.reviewExists">
-        <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
-          <h3>Rate our services</h3>
+      <div class="room-details">
+        <p class="description">{{ receipt.description }}</p>
+      </div>
 
-          <!-- Star Rating -->
-          <div class="star-rating">
-            <button
-              [ngClass]="{ active: i < rating }"
-              [color]="i < rating ? 'primary' : 'accent'"
-              mat-icon-button
-              *ngFor="let ratingId of ratingArr; index as i"
-              [color]="i < rating ? 'primary' : 'accent'"
-              [id]="'star_' + i"
-              (click)="onStarClick(i + 1, $event)"
-              [matTooltip]="i + 1 + ' stars'"
-              matTooltipPosition="above"
-              class="star-button"
-            >
-              <mat-icon>{{ showIcon(i) }}</mat-icon>
-            </button>
+      <div class="pricing-breakdown">
+        <h3>Price Details</h3>
+        <div class="price-item">
+          <span>Price Per Night</span>
+          <span>{{ receipt.pricePerNight | currency }}</span>
+        </div>
+
+        <div class="features-list">
+          <h4>Additional Features</h4>
+          <div class="feature-item" *ngFor="let feature of features">
+            <span>{{ feature.name }}</span>
+            <span>{{ feature.price | currency }}</span>
+          </div>
+        </div>
+
+        <div class="total-price">
+          <span>Total Amount</span>
+          <span class="amount">{{ receipt.totalPrice | currency }}</span>
+        </div>
+      </div>
+
+      <p *ngIf="receipt.isExpired" class="expired-badge">Booking Expired</p>
+
+      <mat-card *ngIf="!receipt.reviewExists" class="review-form-card">
+        <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+          <h3 class="review-title">Share Your Experience</h3>
+
+          <div class="star-rating-container">
+            <p class="rating-label">How would you rate your stay?</p>
+            <div class="star-rating">
+              <button
+                [ngClass]="{ active: i < rating }"
+                mat-icon-button
+                *ngFor="let ratingId of ratingArr; index as i"
+                [color]="i < rating ? 'primary' : 'accent'"
+                [id]="'star_' + i"
+                (click)="onStarClick(i + 1, $event)"
+                [matTooltip]="i + 1 + ' stars'"
+                matTooltipPosition="above"
+                class="star-button"
+              >
+                <mat-icon>{{ showIcon(i) }}</mat-icon>
+              </button>
+            </div>
           </div>
 
-          <!-- Textarea for comments -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Leave a comment</mat-label>
-            <textarea matInput formControlName="comment" rows="4"></textarea>
+          <mat-form-field appearance="outline" class="full-width comment-field">
+            <mat-label>Tell us about your stay</mat-label>
+            <textarea
+              matInput
+              formControlName="comment"
+              rows="4"
+              placeholder="Share the details of your experience..."
+            ></textarea>
           </mat-form-field>
 
-          <!-- Submit Button -->
           <button
             mat-raised-button
             color="primary"
             type="submit"
             [disabled]="!reviewForm.valid"
+            class="submit-review-btn"
           >
             Submit Review
           </button>
         </form>
       </mat-card>
+
       <mat-card *ngIf="receipt.reviewExists" class="review-card">
-        <!-- Show Review if Not Editing -->
         <ng-container *ngIf="!isEditing">
-          <mat-card-header>
-            <!-- Rating on the Right -->
-            <mat-card-title class="rating">
-              {{ receipt.review.rating }} / 5
-              <mat-icon class="star">star</mat-icon>
-            </mat-card-title>
+          <mat-card-header class="review-header">
+            <div class="review-rating">
+              <div class="rating-stars">
+                <mat-icon
+                  *ngFor="let star of [].constructor(receipt.review.rating)"
+                  class="star-filled"
+                  >star</mat-icon
+                >
+                <mat-icon
+                  *ngFor="let star of [].constructor(5 - receipt.review.rating)"
+                  class="star-empty"
+                  >star_border</mat-icon
+                >
+              </div>
+              <span class="rating-text">{{ receipt.review.rating }}/5</span>
+            </div>
           </mat-card-header>
 
-          <!-- Comment Section -->
-          <mat-card-content class="comment">
-            <p>{{ receipt.review.comment }}</p>
+          <mat-card-content class="review-content">
+            <p class="review-comment">{{ receipt.review.comment }}</p>
+            <div class="review-metadata">
+              <span class="review-date"
+                >Posted on
+                {{ receipt.review.createdAt | date : "mediumDate" }}</span
+              >
+            </div>
           </mat-card-content>
 
-          <!-- Footer Section -->
-          <mat-card-footer>
-            <mat-card-subtitle class="review-date">
-              {{ receipt.review.createdAt | date : "mediumDate" }}
-            </mat-card-subtitle>
-            <div class="actions">
-              <!-- Edit Button -->
-              <button mat-button color="primary" (click)="editReview()">
-                Edit
-              </button>
-
-              <!-- Delete Button -->
-              <button mat-button color="warn" (click)="deleteReview()">
-                Delete Review
-              </button>
-            </div>
-          </mat-card-footer>
+          <mat-card-actions class="review-actions">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="editReview()"
+              class="action-btn edit-btn"
+            >
+              <mat-icon>edit</mat-icon>
+              <span>Edit Review</span>
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="deleteReview()"
+              class="action-btn delete-btn"
+            >
+              <mat-icon>delete</mat-icon>
+              <span>Delete Review</span>
+            </button>
+          </mat-card-actions>
         </ng-container>
 
-        <!-- Edit Review Section -->
         <div *ngIf="isEditing" class="edit-review">
           <form [formGroup]="editReviewForm" (ngSubmit)="submitEditedReview()">
-            <!-- Star Rating -->
             <div class="star-rating">
               <button
                 [ngClass]="{ active: i < editRating }"
@@ -125,14 +176,12 @@
               </button>
             </div>
 
-            <!-- Textarea for comments -->
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Edit your comment</mat-label>
               <textarea matInput formControlName="comment" rows="4"></textarea>
             </mat-form-field>
 
             <div class="buttons">
-              <!-- Save Button -->
               <button
                 mat-raised-button
                 color="primary"
@@ -142,7 +191,6 @@
                 Save Changes
               </button>
 
-              <!-- Cancel Button -->
               <button
                 mat-button
                 color="warn"

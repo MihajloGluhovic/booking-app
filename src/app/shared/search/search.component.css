@@ -1,27 +1,63 @@
-.header {
-  margin-top: 2rem; /* Reduce the top margin */
-  text-align: center; /* Center the header text */
-  font-size: 1.5rem; /* Adjust font size for better hierarchy */
-  font-weight: bold;
+.search-container {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.search-bar {
+.search-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.search-wrapper {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.date-picker-field {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.search-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 8px;
   display: flex;
-  justify-content: space-between;
-  gap: 3rem; /* Add spacing between items */
-  margin: 1rem auto; /* Center on the page */
-  padding-bottom: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
 }
 
-mat-form-field {
-  width: 18rem; /* Limit width to fit better in the layout */
+.search-button:not(:disabled):hover {
+  transform: translateY(-1px);
 }
 
-.submit {
-  margin-top: 0.3rem;
-  padding: 1.4rem 2rem; /*Add horizontal padding */
+.search-button mat-icon {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
 }
 
-/* form { */
-/* width: 20rem; */
-/* } */
+/* Deep styles for Angular Material components */
+:host ::ng-deep .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  border-radius: 8px;
+}

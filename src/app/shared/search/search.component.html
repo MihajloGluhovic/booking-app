@@ -1,32 +1,40 @@
-<h2 class="header">Please select a date</h2>
-<div class="search-bar">
-  <!-- Date range picker -->
-  <form [formGroup]="dateRangeForm">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Select a date range</mat-label>
-      <mat-date-range-input [formGroup]="dateRangeForm" [rangePicker]="picker">
-        <input
-          matStartDate
-          formControlName="startDate"
-          placeholder="Start date"
-        />
-        <input matEndDate formControlName="endDate" placeholder="End date" />
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-    <mat-error *ngIf="dateRangeForm.get('startDate')?.hasError('required')">
-      Date is required
-    </mat-error>
-  </form>
+<div class="search-container">
+  <h2 class="search-title">Select Date Range</h2>
 
-  <button
-    class="submit"
-    mat-raised-button
-    color="primary"
-    (click)="search()"
-    [disabled]="!dateRangeForm.valid"
-  >
-    Search
-  </button>
+  <div class="search-wrapper">
+    <form [formGroup]="dateRangeForm">
+      <mat-form-field appearance="outline" class="date-picker-field">
+        <mat-label>Date Range</mat-label>
+        <mat-date-range-input
+          [formGroup]="dateRangeForm"
+          [rangePicker]="picker"
+        >
+          <input matStartDate formControlName="startDate" placeholder="From" />
+          <input matEndDate formControlName="endDate" placeholder="To" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+      <div
+        class="error-message"
+        *ngIf="dateRangeForm.get('startDate')?.hasError('required')"
+      >
+        Please select a date range
+      </div>
+    </form>
+
+    <button
+      class="search-button"
+      mat-flat-button
+      color="primary"
+      (click)="search()"
+      [disabled]="!dateRangeForm.valid"
+    >
+      <mat-icon>search</mat-icon>
+      <span>Search</span>
+    </button>
+  </div>
 </div>

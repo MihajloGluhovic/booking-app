@@ -1,34 +1,27 @@
-import {
-  Component,
-  computed,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-
+import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { Router, RouterLink } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { NgIf } from '@angular/common';
 import { AuthService } from '../../auth/services/auth.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css'],
   standalone: true,
   imports: [
-    CommonModule,
     RouterLink,
     MatToolbarModule,
-    MatIconModule,
     MatButtonModule,
-    MatDividerModule,
+    MatMenuModule,
+    MatIconModule,
+    NgIf,
   ],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   isTokenValid: boolean = false;
 
   constructor(private authService: AuthService) {}

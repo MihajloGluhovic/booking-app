@@ -1,0 +1,204 @@
+body {
+  background: #f5f6fa;
+  background: linear-gradient(135deg, #f5f6fa 0%, #ffffff 100%);
+}
+
+.contact-container {
+  min-height: 100vh;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle animated background patterns */
+.contact-container::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: radial-gradient(
+      circle at 100% 100%,
+      rgba(66, 153, 225, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(49, 130, 206, 0.1) 0%,
+      transparent 50%
+    );
+  animation: gradientShift 15s ease infinite;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #2d3748 0%, #1a365d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+/* Add subtle subtitle */
+h1::after {
+  content: "Meet our team";
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #4a5568;
+  margin-top: 0.5rem;
+}
+
+.developers {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 2rem;
+}
+
+.developer-card {
+  flex: 1;
+  min-width: 380px;
+  max-width: 600px;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.developer-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #4299e1, #667eea);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.developer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.developer-card:hover::before {
+  transform: scaleX(1);
+}
+
+h2 {
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, #2d3748 0%, #1a365d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.role {
+  font-size: 1.3rem;
+  color: #4a5568;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.tech-stack {
+  font-size: 1rem;
+  color: #718096;
+  line-height: 1.6;
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+}
+
+.social-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.social-link {
+  background: linear-gradient(135deg, #f6f9fc 0%, #ffffff 100%);
+  border: 1px solid #e2e8f0;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+  color: #4a5568;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.social-link i,
+.social-link fa-icon {
+  font-size: 1.1rem;
+}
+
+/* Add animations */
+@keyframes gradientShift {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+  }
+
+  .developer-card {
+    min-width: 300px;
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .developers {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .developer-card {
+    width: 100%;
+    max-width: 600px;
+  }
+}

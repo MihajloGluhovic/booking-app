@@ -27,3 +27,143 @@ body {
 section {
   display: table;
 }
+
+.navbar {
+  padding: 0 2rem;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 70px;
+}
+
+.brand-section .brand-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #1976d2;
+  gap: 8px;
+}
+
+.brand-section .brand-logo .brand-name {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.auth-buttons,
+.guest-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-buttons button,
+.guest-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.auth-buttons button mat-icon,
+.guest-buttons button mat-icon {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+.login-btn {
+  border-color: #1976d2;
+  color: #1976d2;
+}
+
+.signup-btn {
+  margin-left: 8px;
+}
+
+button.active {
+  background: rgba(25, 118, 210, 0.1);
+}
+
+.user-menu-trigger {
+  border-radius: 24px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+
+  .brand-name {
+    display: none;
+  }
+
+  button span {
+    display: none;
+  }
+}
+
+.modern-navbar {
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 70px;
+}
+
+.brand-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  margin-left: 8px;
+  font-family: "Poppins", sans-serif;
+}
+
+.home-button {
+  text-decoration: none;
+  color: white;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+}
+
+.home-button:hover {
+  opacity: 0.9;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-button {
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Poppins", sans-serif;
+}
+
+.nav-button mat-icon {
+  color: white;
+  margin-right: 4px;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.signup-button,
+.logout-button {
+  margin-left: 8px;
+  font-weight: 500;
+}

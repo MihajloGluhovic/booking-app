@@ -3,8 +3,37 @@
 html,
 body {
   height: 100%;
-}
-body {
   margin: 0;
+  padding: 0;
+}
+
+body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.warning-snackbar {
+  background: #ff9800;
+  color: white;
+}
+
+.warning-snackbar .mat-simple-snackbar-action {
+  color: white;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  min-height: calc(100vh - 320px); /* Adjust based on footer + navbar height */
+}
+
+app-footer {
+  margin-top: auto;
 }

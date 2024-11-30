@@ -1,28 +1,25 @@
 <mat-card class="room-card">
-  <mat-card-header>
-    <mat-card-title>{{ room.title }}</mat-card-title>
-    <mat-card-subtitle> {{ room.price | currency : "EUR" }}</mat-card-subtitle>
-  </mat-card-header>
-
-  <img mat-card-image [src]="room.image" alt="{{ room.title }}" />
+  <img mat-card-image [src]="roomInfo.image" alt="{{ roomInfo.title }}" />
 
   <mat-card-content>
-    <p>{{ room.description }}</p>
-  </mat-card-content>
-
-  <mat-card-actions>
-    <p *ngIf="room.availableRoomsCount">
-      Available rooms: {{ room.availableRoomsCount }}
-    </p>
+    <h2 class="room-title">{{ roomInfo.title }}</h2>
+    <p class="room-description">{{ roomInfo.description }}</p>
+    <div class="price-container">
+      <span class="currency">$</span>
+      <span class="price">{{ roomInfo.price }}</span>
+      <span class="per-night">/night</span>
+    </div>
     <button
+      mat-flat-button
+      class="view-details-btn"
       [disabled]="!isSearched"
-      mat-button
-      color="primary"
-      [routerLink]="['/room', room.id]"
-      matTooltip="You must search first"
-      [matTooltipDisabled]="isSearched"
+      (click)="viewDetails()"
+      [routerLink]="['/room', roomInfo.id]"
+      [matTooltip]="
+        isSearched ? 'View room details' : 'Please select dates first'
+      "
     >
-      Book Now
+      VIEW DETAILS
     </button>
-  </mat-card-actions>
+  </mat-card-content>
 </mat-card>

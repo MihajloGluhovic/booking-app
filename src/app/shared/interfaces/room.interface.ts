@@ -2,6 +2,7 @@ import { ReviewInterface } from './review.interface';
 
 export interface RoomInterface {
   id: number;
+  title: string;
   description: string;
   price: number;
   image: string;

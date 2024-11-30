@@ -1,5 +1,51 @@
-<div class="container">
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <app-room-card *ngFor="let room of rooms" [roomInfo]="room"></app-room-card>
-  <div *ngIf="rooms === []">No available rooms for this date!</div>
+<div class="rooms-container">
+  <div class="rooms-header">
+    <div class="rooms-count">
+      Item 1 to {{ rooms?.length || 0 }} of {{ rooms?.length || 0 }} items
+    </div>
+    <div class="rooms-controls">
+      <div class="view-options">
+        <button
+          mat-icon-button
+          (click)="changeLayout('grid')"
+          [color]="layout === 'grid' ? 'primary' : ''"
+        >
+          <mat-icon>grid_view</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="changeLayout('list')"
+          [color]="layout === 'list' ? 'primary' : ''"
+        >
+          <mat-icon>view_list</mat-icon>
+        </button>
+      </div>
+      <div class="sort-options">
+        <mat-form-field>
+          <mat-label>Sort by</mat-label>
+          <mat-select
+            [(value)]="sortBy"
+            (selectionChange)="onSortChange($event.value)"
+          >
+            <mat-option value="featured">Featured</mat-option>
+            <mat-option value="price-low">Price: Low to High</mat-option>
+            <mat-option value="price-high">Price: High to Low</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="rooms-grid" [ngClass]="layout">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <ng-container *ngIf="rooms && rooms.length > 0">
+      <app-room-card
+        *ngFor="let room of rooms"
+        [roomInfo]="room"
+      ></app-room-card>
+    </ng-container>
+    <div *ngIf="rooms && rooms.length === 0" class="no-rooms">
+      No rooms available for the selected dates
+    </div>
+  </div>
 </div>
