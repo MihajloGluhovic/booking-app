@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,14 +23,18 @@ import { AuthService } from '../../auth/services/auth.service';
 })
 export class NavbarComponent {
   isTokenValid: boolean = false;
+  isScrolled: boolean = false;
 
   constructor(private authService: AuthService) {}
 
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isScrolled = window.scrollY > 20;
+  }
+
   ngOnInit(): void {
-    // Subscribe to authentication status
     this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
       this.isTokenValid = isAuthenticated;
-      // console.log('Navbar token: ', this.isTokenValid);
     });
   }
 

@@ -29,8 +29,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 export class HomeRoomsComponent implements OnInit {
   rooms?: RoomInterface[];
   isLoading: boolean = false;
-  layout: 'grid' | 'list' = 'grid';
-  sortBy: string = 'featured';
+  layout: 'grid-2' | 'grid-3' | 'grid-4' | 'list' = 'grid-3';
+  sortBy: string = 'rating-high';
 
   constructor(private roomService: RoomService) {}
 
@@ -53,25 +53,59 @@ export class HomeRoomsComponent implements OnInit {
     );
   }
 
-  changeLayout(layout: 'grid' | 'list') {
+  changeLayout(layout: 'grid-2' | 'grid-3' | 'grid-4' | 'list') {
     this.layout = layout;
   }
 
   sortRooms(rooms: RoomInterface[]): RoomInterface[] {
     switch (this.sortBy) {
+      case 'rating-high':
+        return [...rooms].sort((a, b) => {
+          if (a.averageRating && b.averageRating) {
+            return b.averageRating - a.averageRating;
+          }
+          if (a.averageRating) return -1;
+          if (b.averageRating) return 1;
+          return 0;
+        });
+      case 'rating-low':
+        return [...rooms].sort((a, b) => {
+          if (a.averageRating && b.averageRating) {
+            return a.averageRating - b.averageRating;
+          }
+          if (a.averageRating) return -1;
+          if (b.averageRating) return 1;
+          return 0;
+        });
       case 'price-low':
-        return rooms.sort((a, b) => a.price - b.price);
+        return [...rooms].sort((a, b) => a.price - b.price);
       case 'price-high':
-        return rooms.sort((a, b) => b.price - a.price);
+        return [...rooms].sort((a, b) => b.price - a.price);
       default:
-        return rooms; // Default sorting logic
+        return rooms;
     }
   }
 
-  onSortChange(sortValue: string) {
-    this.sortBy = sortValue;
-    if (this.rooms) {
-      this.rooms = this.sortRooms(this.rooms);
+  onSortChange(value: string): void {
+    if (!this.rooms) return;
+
+    switch (value) {
+      case 'rating-high':
+        this.rooms.sort(
+          (a, b) => (b.averageRating || 0) - (a.averageRating || 0)
+        );
+        break;
+      case 'rating-low':
+        this.rooms.sort(
+          (a, b) => (a.averageRating || 0) - (b.averageRating || 0)
+        );
+        break;
+      case 'price-low':
+        this.rooms.sort((a, b) => a.price - b.price);
+        break;
+      case 'price-high':
+        this.rooms.sort((a, b) => b.price - a.price);
+        break;
     }
   }
 }

@@ -1,16 +1,76 @@
-.rooms-container {
+:host {
+  display: block;
+  height: 100%;
   width: 100%;
-  padding: 20px;
-  max-width: 1400px;
+}
+
+.rooms-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+}
+
+.rooms-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 0;
+  display: grid;
+  gap: 32px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.rooms-grid.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.rooms-grid.list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .rooms-header {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  margin-bottom: 16px;
+}
+
+.header-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  padding: 0 16px;
+  gap: 16px;
+}
+
+.sort-options {
+  flex: 1;
+  max-width: 300px;
+}
+
+.view-options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+}
+
+.view-button {
+  transition: all 0.2s;
+}
+
+.view-button[color="primary"] {
+  background: rgba(var(--primary-color-rgb), 0.1);
 }
 
 .rooms-count {
@@ -22,30 +82,6 @@
   display: flex;
   align-items: center;
   gap: 20px;
-}
-
-.view-options {
-  display: flex;
-  gap: 8px;
-}
-
-.rooms-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 30px;
-  justify-items: center;
-  padding: 0 16px;
-}
-
-.rooms-grid.list {
-  grid-template-columns: 1fr;
-  max-width: 1200px;
-  margin: 0 auto;
-  gap: 20px;
-}
-
-mat-form-field {
-  width: 150px;
 }
 
 .no-rooms {
@@ -69,4 +105,30 @@ mat-form-field {
   .rooms-grid.list {
     padding: 0 8px;
   }
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+.list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+  max-width: 1200px !important;
+}
+
+.sort-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+  font-size: 20px;
+}
+
+mat-form-field {
+  min-width: 200px;
+}
+
+.mat-mdc-select-value {
+  display: flex;
+  align-items: center;
 }

@@ -9,129 +9,25 @@ body {
 }
 
 .home-button {
-  cursor: pointer;
-  text-decoration: none;
-}
-.home-button:visited {
-  color: azure;
-}
-
-.bg-color-blue {
-  background-color: #005cbb;
-}
-
-.color-white {
-  color: azure;
-}
-
-section {
-  display: table;
-}
-
-.navbar {
-  padding: 0 2rem;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  height: 70px;
-}
-
-.brand-section .brand-logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #1976d2;
-  gap: 8px;
-}
-
-.brand-section .brand-logo .brand-name {
-  font-size: 1.3rem;
-  font-weight: 500;
-}
-
-.nav-links {
-  margin-left: auto;
-  display: flex;
-  gap: 8px;
-}
-
-.auth-buttons,
-.guest-buttons {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.auth-buttons button,
-.guest-buttons button {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.auth-buttons button mat-icon,
-.guest-buttons button mat-icon {
-  font-size: 20px;
-  height: 20px;
-  width: 20px;
-}
-
-.login-btn {
-  border-color: #1976d2;
-  color: #1976d2;
-}
-
-.signup-btn {
-  margin-left: 8px;
-}
-
-button.active {
-  background: rgba(25, 118, 210, 0.1);
-}
-
-.user-menu-trigger {
-  border-radius: 24px;
-}
-
-@media (max-width: 768px) {
-  .navbar {
-    padding: 0 1rem;
-  }
-
-  .brand-name {
-    display: none;
-  }
-
-  button span {
-    display: none;
-  }
-}
-
-.modern-navbar {
-  padding: 0 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  height: 70px;
-}
-
-.brand-text {
-  font-size: 1.5rem;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  margin-left: 8px;
-  font-family: "Poppins", sans-serif;
-}
-
-.home-button {
   text-decoration: none;
   color: white;
-  transition: opacity 0.2s;
   display: flex;
   align-items: center;
-  margin-left: 16px;
+  gap: 12px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .home-button:hover {
-  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.brand-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: white;
 }
 
 .button-group {
@@ -141,29 +37,110 @@ button.active {
 }
 
 .nav-button {
-  font-weight: 400;
-  letter-spacing: 0.3px;
-  text-transform: none;
-  font-size: 0.9rem;
-  transition: background-color 0.2s;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 6px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
   color: white !important;
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-family: "Poppins", sans-serif;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  height: 38px;
 }
 
 .nav-button mat-icon {
   color: white;
-  margin-right: 4px;
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+  opacity: 0.9;
 }
 
 .nav-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.signup-button,
+.signup-button {
+  background: white;
+  color: #4f46e5 !important;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signup-button mat-icon {
+  color: #4f46e5;
+}
+
+.signup-button:hover {
+  background: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .logout-button {
-  margin-left: 8px;
-  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.logout-button:hover {
+  background: rgba(255, 70, 70, 0.1);
+  border-color: rgba(255, 70, 70, 0.3);
+}
+
+@media (max-width: 768px) {
+  .modern-navbar {
+    padding: 0 1rem;
+    height: 60px;
+  }
+
+  .brand-text {
+    font-size: 1.2rem;
+  }
+
+  .nav-button {
+    padding: 6px 12px;
+    height: 34px;
+  }
+
+  .nav-button span {
+    display: none;
+  }
+
+  .button-group {
+    gap: 6px;
+  }
+}
+
+.navbar-scrolled {
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.98) 0%,
+    rgba(124, 58, 237, 0.98) 100%
+  );
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modern-navbar {
+  animation: fadeInDown 0.4s ease-out;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  padding: 0 2rem;
+  height: 70px;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }

@@ -1,30 +1,35 @@
 <div class="profile-container">
   <!-- Profile Header -->
   <div class="profile-header">
-    <h2>Welcome, {{ user?.firstName || "User" }}</h2>
-    <p>Manage your account settings</p>
-  </div>
-
-  <!-- Account Actions Section -->
-  <div class="account-actions">
-    <!-- Deactivate Account Button -->
-    <button
-      mat-raised-button
-      color="warn"
-      class="deactivate-button"
-      (click)="deactivateAccount()"
-    >
-      Deactivate Account
-    </button>
+    <div class="avatar-container">
+      <div class="avatar">{{ user?.firstName?.charAt(0) || "U" }}</div>
+    </div>
+    <h2>Welcome back, {{ user?.firstName || "User" }}</h2>
+    <p>Manage your personal account settings</p>
   </div>
 
   <!-- Change Password Section -->
-  <div class="change-password-section">
-    <h3>Change Password</h3>
+  <div class="card-section">
+    <h3>Security Settings</h3>
     <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Current Password</mat-label>
-        <input matInput type="password" formControlName="currentPassword" />
+        <input
+          matInput
+          [type]="hideCurrentPassword ? 'password' : 'text'"
+          formControlName="currentPassword"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          class="peek-button"
+          (click)="togglePassword('current')"
+        >
+          <mat-icon class="peek-icon" [class.peeking]="!hideCurrentPassword">{{
+            hideCurrentPassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
         <mat-error
           *ngIf="passwordForm.get('currentPassword')?.hasError('required')"
         >
@@ -34,7 +39,22 @@
 
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>New Password</mat-label>
-        <input matInput type="password" formControlName="newPassword" />
+        <input
+          matInput
+          [type]="hideNewPassword ? 'password' : 'text'"
+          formControlName="newPassword"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          class="peek-button"
+          (click)="togglePassword('new')"
+        >
+          <mat-icon class="peek-icon" [class.peeking]="!hideNewPassword">{{
+            hideNewPassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
         <mat-error
           *ngIf="passwordForm.get('newPassword')?.hasError('required')"
         >
@@ -44,11 +64,29 @@
 
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Confirm New Password</mat-label>
-        <input matInput type="password" formControlName="confirmNewPassword" />
+        <input
+          matInput
+          [type]="hideConfirmPassword ? 'password' : 'text'"
+          formControlName="confirmNewPassword"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          class="peek-button"
+          (click)="togglePassword('confirm')"
+        >
+          <mat-icon class="peek-icon" [class.peeking]="!hideConfirmPassword">{{
+            hideConfirmPassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
         <mat-error
           *ngIf="passwordForm.get('confirmNewPassword')?.hasError('required')"
         >
           Please confirm your new password
+        </mat-error>
+        <mat-error *ngIf="passwordForm.errors?.['passwordMismatch']">
+          Passwords do not match
         </mat-error>
       </mat-form-field>
 
@@ -59,9 +97,28 @@
           type="submit"
           [disabled]="passwordForm.invalid"
         >
+          <mat-icon>save</mat-icon>
           Update Password
         </button>
       </div>
     </form>
+  </div>
+
+  <!-- Account Actions Section -->
+  <div class="card-section danger-zone">
+    <h3>Danger Zone</h3>
+    <p class="danger-text">
+      Once you deactivate your account, you will have a prompt to activate it on
+      login.
+    </p>
+    <button
+      mat-stroked-button
+      color="warn"
+      class="deactivate-button"
+      (click)="deactivateAccount()"
+    >
+      <mat-icon>warning</mat-icon>
+      Deactivate Account
+    </button>
   </div>
 </div>

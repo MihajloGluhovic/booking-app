@@ -8,6 +8,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { RoomDetailsComponent } from './pages/room-details/room-details.component';
 import { ReceiptComponent } from './pages/receipt/receipt.component';
 import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
+import { AllReviewsComponent } from './pages/all-reviews/all-reviews.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'reviews', component: AllReviewsComponent },
   {
     path: 'bookings',
     component: MyBookingsComponent,

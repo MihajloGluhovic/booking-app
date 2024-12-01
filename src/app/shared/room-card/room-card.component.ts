@@ -6,6 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterLink } from '@angular/router';
 import { RoomInterface } from '../interfaces/room.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-room-card',
@@ -16,6 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatCardModule,
     MatButtonModule,
     RouterLink,
+    MatIconModule,
   ],
   templateUrl: './room-card.component.html',
   styleUrl: './room-card.component.css',

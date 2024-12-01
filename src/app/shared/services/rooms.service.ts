@@ -9,6 +9,7 @@ import { Receipt } from '../interfaces/receipt.interface';
 import { BookingsInterface } from '../interfaces/bookings.interface';
 import { ReviewResponse } from '../interfaces/reviewResponse.interface';
 import { ReviewFetch } from '../interfaces/reviewFetch.interface';
+import { GlobalReviews } from '../interfaces/globalReviews.interface';
 
 @Injectable({ providedIn: 'root' })
 export class RoomService {
@@ -143,6 +144,15 @@ export class RoomService {
     });
 
     return this.http.post<ReviewResponse>(fullUrl, data, { headers });
+  }
+
+  getAllReviews(): Observable<GlobalReviews> {
+    const fullUrl = `${environment.apiUrl}/bookings/all-reviews`;
+    const headers = new HttpHeaders({
+      'Ocp-Apim-Subscription-Key': environment.apiKey,
+    });
+
+    return this.http.get<GlobalReviews>(fullUrl, { headers });
   }
 
   editReview(data: ReviewFetch): Observable<ReviewResponse> {

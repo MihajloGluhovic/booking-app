@@ -1,5 +1,9 @@
 <mat-card class="room-card">
   <img mat-card-image [src]="roomInfo.image" alt="{{ roomInfo.title }}" />
+  <div class="rating-badge" *ngIf="roomInfo.averageRating">
+    <mat-icon class="star-icon">star</mat-icon>
+    <span>{{ roomInfo.averageRating | number : "1.1-1" }}</span>
+  </div>
 
   <mat-card-content>
     <h2 class="room-title">{{ roomInfo.title }}</h2>

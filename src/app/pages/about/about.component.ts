@@ -43,17 +43,17 @@ export class AboutComponent {
       setTimeout(() => {
         observer.next([
           {
-            label: 'First',
+            label: 'I',
             content:
               'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?cs=srgb&dl=pexels-pixabay-261102.jpg&fm=jpg',
           },
           {
-            label: 'Second',
+            label: 'II',
             content:
               'https://plus.unsplash.com/premium_photo-1661964071015-d97428970584?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWx8ZW58MHx8MHx8fDA%3D',
           },
           {
-            label: 'Third',
+            label: 'III',
             content:
               'https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?cs=srgb&dl=pexels-thorsten-technoman-109353-338504.jpg&fm=jpg',
           },
@@ -73,10 +73,10 @@ export class AboutComponent {
     '24/7 Room Service',
     'Complimentary Wi-Fi',
     'Outdoor Pool & Spa',
-    'Business & Conference Rooms',
+    'Conference Rooms',
     'Luxury Dining Options',
     'Airport Shuttle Service',
-    'Event & Wedding Planning Services',
+    'Event Planning Services',
   ];
 }
 

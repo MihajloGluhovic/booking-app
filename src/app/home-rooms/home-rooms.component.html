@@ -1,14 +1,38 @@
 <div class="rooms-container">
   <div class="rooms-header">
-    <div class="rooms-count">
-      Item 1 to {{ rooms?.length || 0 }} of {{ rooms?.length || 0 }} items
-    </div>
-    <div class="rooms-controls">
+    <div class="header-controls">
+      <div class="sort-options">
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Sort by</mat-label>
+          <mat-select [(value)]="sortBy" (selectionChange)="loadRooms()">
+            <mat-option value="rating-high">
+              <mat-icon class="sort-icon" color="accent">star</mat-icon>
+              Rating: High to Low
+            </mat-option>
+            <mat-option value="rating-low">
+              <mat-icon class="sort-icon" color="accent">star_outline</mat-icon>
+              Rating: Low to High
+            </mat-option>
+            <mat-option value="price-low">
+              <mat-icon class="sort-icon" color="accent"
+                >trending_down</mat-icon
+              >
+              Price: Low to High
+            </mat-option>
+            <mat-option value="price-high">
+              <mat-icon class="sort-icon" color="accent">trending_up</mat-icon>
+              Price: High to Low
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <div class="view-options">
         <button
           mat-icon-button
-          (click)="changeLayout('grid')"
-          [color]="layout === 'grid' ? 'primary' : ''"
+          (click)="changeLayout('grid-3')"
+          [color]="layout === 'grid-3' ? 'primary' : ''"
+          class="view-button"
         >
           <mat-icon>grid_view</mat-icon>
         </button>
@@ -16,22 +40,10 @@
           mat-icon-button
           (click)="changeLayout('list')"
           [color]="layout === 'list' ? 'primary' : ''"
+          class="view-button"
         >
-          <mat-icon>view_list</mat-icon>
+          <mat-icon>view_stream</mat-icon>
         </button>
-      </div>
-      <div class="sort-options">
-        <mat-form-field>
-          <mat-label>Sort by</mat-label>
-          <mat-select
-            [(value)]="sortBy"
-            (selectionChange)="onSortChange($event.value)"
-          >
-            <mat-option value="featured">Featured</mat-option>
-            <mat-option value="price-low">Price: Low to High</mat-option>
-            <mat-option value="price-high">Price: High to Low</mat-option>
-          </mat-select>
-        </mat-form-field>
       </div>
     </div>
   </div>

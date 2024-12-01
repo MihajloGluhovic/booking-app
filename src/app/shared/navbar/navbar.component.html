@@ -1,4 +1,4 @@
-<mat-toolbar class="bg-color-blue color-white modern-navbar">
+<mat-toolbar class="modern-navbar" [class.navbar-scrolled]="isScrolled">
   <a routerLink="/" class="home-button">
     <mat-icon>hotel</mat-icon>
     <span class="brand-text">Hotel Booking</span>
@@ -16,6 +16,10 @@
       <button routerLink="/bookings" mat-button class="nav-button">
         <mat-icon>book</mat-icon>
         <span>My Bookings</span>
+      </button>
+      <button routerLink="/reviews" mat-button class="nav-button">
+        <mat-icon>star_rate</mat-icon>
+        <span>Reviews</span>
       </button>
       <button routerLink="/contact" mat-button class="nav-button">
         <mat-icon>contact_support</mat-icon>

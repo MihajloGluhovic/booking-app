@@ -8,10 +8,10 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 3rem;
-  margin-bottom: 4rem;
+  /* display: grid; */
+  /* grid-template-columns: 300px 1fr; */
+  /* gap: 3rem; */
+  /* margin-bottom: 4rem; */
 }
 
 @media (max-width: 1024px) {

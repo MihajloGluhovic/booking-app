@@ -1,39 +1,52 @@
 <div class="container" fxLayout="column" fxLayoutAlign="center center">
+  <!-- Hero Section -->
   <mat-card class="about-card" *ngIf="aboutUs">
-    <mat-card-header>
-      <mat-card-title>{{ aboutUs.title }}</mat-card-title>
-      <mat-card-subtitle>{{ aboutUs.subtitle }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>{{ aboutUs.description }}</p>
-    </mat-card-content>
+    <div class="hero-content">
+      <h1 class="elegant-title">{{ aboutUs.title }}</h1>
+      <h2 class="subtitle">{{ aboutUs.subtitle }}</h2>
+      <div class="description">
+        <p>{{ aboutUs.description }}</p>
+      </div>
+    </div>
   </mat-card>
 
-  @if ((asyncTabs | async) === null) { <mat-spinner></mat-spinner>}
+  <!-- Loading Spinner -->
+  @if ((asyncTabs | async) === null) {
+  <div class="loader-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  }
 
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-    @for (tab of asyncTabs | async; track tab) {
-    <mat-tab>
-      <ng-template mat-tab-label>{{ tab.label }}</ng-template>
-      <img src="{{ tab.content }}" alt="Hotel Image" />
-    </mat-tab>
-    }
-  </mat-tab-group>
+  <!-- Image Gallery -->
+  <div class="gallery-section">
+    <mat-tab-group
+      mat-stretch-tabs="false"
+      mat-align-tabs="center"
+      animationDuration="500ms"
+    >
+      @for (tab of asyncTabs | async; track tab) {
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tab-label">{{ tab.label }}</span>
+        </ng-template>
+        <div class="image-container">
+          <img [src]="tab.content" [alt]="tab.label" class="gallery-image" />
+        </div>
+      </mat-tab>
+      }
+    </mat-tab-group>
+  </div>
 
   <!-- Services Section -->
   <mat-card class="services-card" *ngIf="services.length">
-    <mat-card-header>
-      <mat-card-title>Our Services</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item *ngFor="let service of services">
-          <mat-icon matListIcon>check_circle</mat-icon>
-          <h4 matLine>{{ service }}</h4>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
+    <div class="services-content">
+      <h2 class="services-title">Our Exclusive Services</h2>
+      <div class="services-grid">
+        <div class="service-item" *ngFor="let service of services">
+          <mat-icon class="service-icon">check_circle</mat-icon>
+          <h3 class="service-name">{{ service }}</h3>
+        </div>
+      </div>
+    </div>
   </mat-card>
 </div>
-
-<!-- <app-footer></app-footer> -->

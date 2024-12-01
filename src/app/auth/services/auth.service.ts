@@ -58,20 +58,34 @@ export class AuthService {
     }
   }
 
-  register(data: RegisterRequestInterface) {
+  register(registerData: RegisterRequestInterface) {
     const fullUrl = environment.apiUrl + '/users/register';
     const headers = new HttpHeaders({
       'Ocp-Apim-Subscription-Key': environment.apiKey,
     });
-    return this.http.post<UserInterface>(fullUrl, data, { headers }).subscribe(
-      (user) => {
-        console.log('Register response:', user);
-        this.storeUser(user);
-      },
-      (error) => {
-        console.error('Register error:', error);
-      }
-    );
+    return this.http
+      .post<UserInterface>(fullUrl, registerData, { headers })
+      .subscribe(
+        (user) => {
+          const email = registerData.email;
+          const password = registerData.password;
+          this.login({ email, password }).subscribe({
+            next: (loggedInUser) => {
+              // Storing the user and navigating to home page
+              console.log('Logged in user after registration:', loggedInUser);
+              this.storeUser(loggedInUser);
+              this.isAuthenticatedSubject.next(true);
+              this.router.navigate(['/home']);
+            },
+            error: (err) => {
+              console.error('Error logging in after activation', err);
+            },
+          });
+        },
+        (error) => {
+          console.error('Register error:', error);
+        }
+      );
   }
 
   login(data: LoginRequestInterface) {
