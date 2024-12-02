@@ -71,7 +71,8 @@ export class AboutComponent {
 
   services = [
     '24/7 Room Service',
-    'Complimentary Wi-Fi',
+    'Private Beach',
+    'Fittnes & Gym Center ',
     'Outdoor Pool & Spa',
     'Conference Rooms',
     'Luxury Dining Options',

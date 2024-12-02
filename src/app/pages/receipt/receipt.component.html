@@ -43,16 +43,69 @@
 
       <div class="pricing-breakdown">
         <h3>Price Details</h3>
-        <div class="price-item">
-          <span>Price Per Night</span>
-          <span>{{ receipt.pricePerNight | currency }}</span>
+
+        <!-- Base Room Rate -->
+        <div class="price-section">
+          <h4>Room Charges</h4>
+
+          <!-- Base price per night -->
+          <div class="price-item">
+            <span>Room Rate ({{ receipt.numberOfNights }} nights)</span>
+            <div class="price-details">
+              <small
+                >{{ receipt.basePrice | currency }} ×
+                {{ receipt.numberOfNights }} nights</small
+              >
+              <span>{{
+                receipt.basePrice * receipt.numberOfNights | currency
+              }}</span>
+            </div>
+          </div>
+
+          <!-- Additional Guest Fee -->
+          <div class="price-item" *ngIf="receipt.numOfPeople > 1">
+            <span>Additional Guest Fee</span>
+            <div class="price-details">
+              <small>
+                {{ 30 | currency }} × {{ receipt.numOfPeople - 1 }} guests ×
+                {{ receipt.numberOfNights }} nights</small
+              >
+              <span>{{
+                30 * (receipt.numOfPeople - 1) * receipt.numberOfNights
+                  | currency
+              }}</span>
+            </div>
+          </div>
         </div>
 
+        <!-- Daily services per person -->
         <div class="features-list">
-          <h4>Additional Features</h4>
-          <div class="feature-item" *ngFor="let feature of features">
+          <h4>Daily Services (per person per night)</h4>
+          <div class="feature-item" *ngFor="let feature of dailyFeatures">
             <span>{{ feature.name }}</span>
-            <span>{{ feature.price | currency }}</span>
+            <div class="price-details">
+              <small
+                >{{ feature.pricePerPerson | currency }} ×
+                {{ receipt.numOfPeople }} persons ×
+                {{ receipt.numberOfNights }} nights</small
+              >
+              <span>{{
+                feature.pricePerPerson *
+                  receipt.numOfPeople *
+                  receipt.numberOfNights | currency
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- One-time services -->
+        <div class="features-list">
+          <h4>One-time Services</h4>
+          <div class="feature-item" *ngFor="let feature of oneTimeFeatures">
+            <span>{{ feature.name }}</span>
+            <div class="price-details">
+              <span>{{ feature.price | currency }}</span>
+            </div>
           </div>
         </div>
 

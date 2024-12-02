@@ -13,6 +13,7 @@ export interface Receipt {
   featureNames: string;
   featurePrices: string;
   pricePerNight: number;
+  basePrice: number;
 
   isReviewed: boolean;
   review: ReviewInterface;

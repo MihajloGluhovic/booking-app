@@ -60,6 +60,17 @@ export class ReceiptComponent implements OnInit {
   editReviewForm: FormGroup;
   editRating: any;
 
+  dailyFeatures: { name: string; pricePerPerson: number }[] = [
+    { name: 'Breakfast', pricePerPerson: 20 },
+    { name: 'Sauna Access', pricePerPerson: 10 },
+    { name: 'Gym Access', pricePerPerson: 10 },
+  ];
+
+  oneTimeFeatures: { name: string; price: number }[] = [
+    { name: 'Laundry Service', price: 10 },
+    { name: 'Parking', price: 5 },
+  ];
+
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
@@ -80,7 +91,13 @@ export class ReceiptComponent implements OnInit {
     if (bookingId) {
       this.roomService.getReceiptByBookingId(bookingId).subscribe({
         next: (data) => {
-          this.receipt = data;
+          this.receipt = {
+            ...data,
+            numberOfNights: this.calculateNights(
+              data.startDate.toString(),
+              data.endDate.toString()
+            ),
+          };
           this.parseFeatures();
         },
         error: (error) => {
@@ -89,6 +106,13 @@ export class ReceiptComponent implements OnInit {
         },
       });
     }
+  }
+
+  calculateNights(startDate: string, endDate: string): number {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const diffTime = Math.abs(end.getTime() - start.getTime());
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
   onStarClick(selectedRating: number, event: Event): void {

@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class AllReviewsComponent implements OnInit {
   allReviews: ReviewInterface[] = [];
   globalRating: number = 0;
+  isLoading = true;
 
   constructor(private roomService: RoomService) {}
 
@@ -21,9 +22,11 @@ export class AllReviewsComponent implements OnInit {
       (response) => {
         this.allReviews = response.reviews;
         this.globalRating = parseFloat(response.average.toFixed(1));
+        this.isLoading = false;
       },
       (err) => {
         console.error('Error getting reviews and rating', err);
+        this.isLoading = false;
       }
     );
   }

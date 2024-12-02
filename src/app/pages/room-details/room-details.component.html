@@ -5,75 +5,9 @@
       <mat-card-title>{{ room?.description }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>{{ room?.fullDescription }}</p>
-      <p><strong>Price:</strong> {{ room?.price | currency }} per night</p>
+      <!-- Room Details -->
+      <p class="room-description">{{ room?.fullDescription }}</p>
 
-      <!-- Features Section -->
-      <div class="features-section">
-        <h3>Features</h3>
-        <mat-chip-listbox aria-label="Static Features">
-          <mat-chip *ngFor="let feature of staticFeatures" selected>
-            {{ feature }}
-          </mat-chip>
-        </mat-chip-listbox>
-      </div>
-
-      <!-- Additional Services Section -->
-      <div class="services-section">
-        <h3>Additional Services</h3>
-        <form [formGroup]="servicesForm">
-          <mat-checkbox
-            formControlName="breakfast"
-            (change)="onServiceChange()"
-          >
-            Breakfast - $20/person
-          </mat-checkbox>
-          <mat-checkbox formControlName="sauna" (change)="onServiceChange()">
-            Sauna - $10/person
-          </mat-checkbox>
-          <mat-checkbox formControlName="gym" (change)="onServiceChange()">
-            Gym - $10/person
-          </mat-checkbox>
-          <mat-checkbox formControlName="laundry" (change)="onServiceChange()">
-            Laundry Service - $10
-          </mat-checkbox>
-          <mat-checkbox formControlName="parking" (change)="onServiceChange()">
-            Parking - $5
-          </mat-checkbox>
-        </form>
-      </div>
-
-      <!-- Guest Selection -->
-      <div class="guest-selection">
-        <h3>Number of Guests</h3>
-        <div class="guest-controls">
-          <button
-            mat-icon-button
-            aria-label="Decrease guests"
-            (click)="decreaseGuests()"
-            [disabled]="guestCount <= 1"
-          >
-            <mat-icon>remove</mat-icon>
-          </button>
-          <span class="guest-count">{{ guestCount }}</span>
-          <button
-            mat-icon-button
-            aria-label="Increase guests"
-            (click)="increaseGuests()"
-            [disabled]="guestCount >= maxGuests"
-          >
-            <mat-icon>add</mat-icon>
-          </button>
-        </div>
-        <mat-hint>Maximum number of guests: {{ maxGuests }} </mat-hint>
-      </div>
-
-      <!-- Total Price -->
-      <div class="pricing">
-        <h3>Price Details</h3>
-        <p><strong>Price per Night:</strong> {{ pricePerNight | currency }}</p>
-        <p><strong>Total Price:</strong> {{ totalPrice | currency }}</p>
-      </div>
       <!-- Room Dates -->
       <div class="date-selection">
         <h3>Room Dates</h3>
@@ -111,13 +45,80 @@
           </mat-form-field>
         </div>
       </div>
+
+      <!-- Features Section -->
+      <div class="features-section">
+        <h3>Features</h3>
+        <mat-chip-listbox aria-label="Static Features">
+          <mat-chip *ngFor="let feature of staticFeatures" selected>
+            {{ feature }}
+          </mat-chip>
+        </mat-chip-listbox>
+      </div>
+
+      <!-- Guest Selection -->
+      <div class="guest-selection">
+        <h3>Number of Guests</h3>
+        <div class="guest-controls">
+          <button
+            mat-icon-button
+            aria-label="Decrease guests"
+            (click)="decreaseGuests()"
+            [disabled]="guestCount <= 1"
+          >
+            <mat-icon>remove</mat-icon>
+          </button>
+          <span class="guest-count">{{ guestCount }}</span>
+          <button
+            mat-icon-button
+            aria-label="Increase guests"
+            (click)="increaseGuests()"
+            [disabled]="guestCount >= maxGuests"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <mat-hint class="max-guests-hint">Max guests: {{ maxGuests }}</mat-hint>
+      </div>
+
+      <!-- Additional Services Section -->
+      <div class="services-section">
+        <h3>Additional Services</h3>
+        <form [formGroup]="servicesForm">
+          <mat-checkbox
+            formControlName="breakfast"
+            (change)="onServiceChange()"
+          >
+            Breakfast - $20/person
+          </mat-checkbox>
+          <mat-checkbox formControlName="sauna" (change)="onServiceChange()">
+            Sauna - $10/person
+          </mat-checkbox>
+          <mat-checkbox formControlName="gym" (change)="onServiceChange()">
+            Gym - $10/person
+          </mat-checkbox>
+          <mat-checkbox formControlName="laundry" (change)="onServiceChange()">
+            Laundry Service - $10
+          </mat-checkbox>
+          <mat-checkbox formControlName="parking" (change)="onServiceChange()">
+            Parking - $5
+          </mat-checkbox>
+        </form>
+      </div>
+
+      <!-- Price Details -->
+      <div class="pricing">
+        <h3>Price Details</h3>
+        <p><strong>Price per Night:</strong> {{ pricePerNight | currency }}</p>
+        <p><strong>Total Price:</strong> {{ totalPrice | currency }}</p>
+      </div>
     </mat-card-content>
 
-    <mat-card-actions align="end">
+    <mat-card-actions class="reserve-button-container">
       <button
         mat-raised-button
         color="primary"
-        [disabled]="!dateRangeForm.valid"
+        class="reserve-button"
         (click)="makeReservation()"
       >
         Reserve Now
@@ -125,8 +126,13 @@
     </mat-card-actions>
   </mat-card>
 </div>
+
+<!-- Original Reviews HTML Structure -->
 <div class="reviews-section" *ngIf="(room?.reviews?.length ?? 0) > 0">
-  <h2 class="reviews-title">Guest Reviews</h2>
+  <div class="reviews-header">
+    <h2 class="reviews-title">Guest Reviews</h2>
+    <p class="reviews-subtitle">What our guests are saying</p>
+  </div>
   <mat-card class="review-card" *ngFor="let review of room?.reviews">
     <div class="review-header">
       <div class="reviewer-info">
@@ -151,9 +157,8 @@
         <span class="rating-text">{{ review.rating }}/5</span>
       </div>
     </div>
-
-    <mat-card-content class="review-content">
+    <div class="review-content">
       <p>{{ review.comment }}</p>
-    </mat-card-content>
+    </div>
   </mat-card>
 </div>

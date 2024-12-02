@@ -124,8 +124,10 @@
 
 .features-list h4 {
   font-size: 1rem;
-  margin-bottom: 12px;
+  margin: 24px 0 16px;
   color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 8px;
 }
 
 .feature-item {
@@ -417,4 +419,61 @@
   justify-content: flex-end;
   gap: 12px;
   margin-top: 24px;
+}
+
+.price-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.price-details small {
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 4px;
+}
+
+.subtotal {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.1);
+}
+.subtotal-item {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  font-weight: 500;
+}
+.price-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.price-details small {
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 4px;
+}
+
+.features-list h4 {
+  color: #1976d2;
+  margin: 24px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.price-item {
+  padding: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.subtotal .price-item {
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 500;
 }

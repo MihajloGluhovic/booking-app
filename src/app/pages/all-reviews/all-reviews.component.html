@@ -3,9 +3,11 @@
     <div
       class="rating-circle"
       [style.--rating-percentage]="(globalRating / 5) * 100"
+      [class.loading]="isLoading"
+      [class.loaded]="!isLoading"
     >
       <div class="rating-content">
-        <span class="rating-number">{{ globalRating }}</span>
+        <div class="rating-number">{{ globalRating }}</div>
         <span class="rating-max">/5</span>
       </div>
     </div>
@@ -13,35 +15,61 @@
     <p class="rating-subtitle">Based on all guest reviews</p>
   </div>
 
-  <div class="recent-reviews-header">
-    <h2 class="recent-title">Most Recent Reviews</h2>
-    <div class="title-decoration"></div>
-  </div>
+  <ng-container *ngIf="allReviews.length > 0; else emptyState">
+    <div class="recent-reviews-header">
+      <h2 class="recent-title">Most Recent Reviews</h2>
+      <div class="title-decoration"></div>
+    </div>
 
-  <div class="reviews-grid">
-    <div *ngFor="let review of allReviews" class="review-card">
-      <div class="review-header">
-        <div class="reviewer-info">
-          <div class="avatar">{{ review.firstName.charAt(0) }}</div>
-          <div class="name-date">
-            <h3>{{ review.firstName }}</h3>
-            <span class="date">{{
-              review.createdAt | date : "mediumDate"
-            }}</span>
+    <div class="reviews-grid">
+      <div *ngFor="let review of allReviews" class="review-card">
+        <div class="review-header">
+          <div class="reviewer-info">
+            <div class="avatar">{{ review.firstName.charAt(0) }}</div>
+            <div class="name-date">
+              <h3>{{ review.firstName }}</h3>
+              <span class="date">{{
+                review.createdAt | date : "mediumDate"
+              }}</span>
+            </div>
+          </div>
+          <div class="rating">
+            <span class="stars">
+              <i
+                *ngFor="let star of [1, 2, 3, 4, 5]"
+                class="fas fa-star"
+                [class.filled]="star <= review.rating"
+              >
+              </i>
+            </span>
           </div>
         </div>
-        <div class="rating">
-          <span class="stars">
-            <i
-              *ngFor="let star of [1, 2, 3, 4, 5]"
-              class="fas fa-star"
-              [class.filled]="star <= review.rating"
-            >
-            </i>
-          </span>
+        <p class="review-content">{{ review.comment }}</p>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <div class="empty-reviews-state">
+      <div class="sparkles-container">
+        <i class="fas fa-sparkles sparkle-1"></i>
+        <i class="fas fa-sparkles sparkle-2"></i>
+        <i class="fas fa-sparkles sparkle-3"></i>
+      </div>
+      <div class="empty-content">
+        <h2>Be the First to Share!</h2>
+        <p>
+          This space is waiting for your story. Share your experience and help
+          others discover this hidden gem.
+        </p>
+        <div class="rating-preview">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
         </div>
       </div>
-      <p class="review-content">{{ review.comment }}</p>
     </div>
-  </div>
+  </ng-template>
 </div>
