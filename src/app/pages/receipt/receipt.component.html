@@ -78,36 +78,40 @@
           </div>
         </div>
 
-        <!-- Daily services per person -->
-        <div class="features-list">
-          <h4>Daily Services (per person per night)</h4>
-          <div class="feature-item" *ngFor="let feature of dailyFeatures">
-            <span>{{ feature.name }}</span>
-            <div class="price-details">
-              <small
-                >{{ feature.pricePerPerson | currency }} ×
-                {{ receipt.numOfPeople }} persons ×
-                {{ receipt.numberOfNights }} nights</small
-              >
-              <span>{{
-                feature.pricePerPerson *
-                  receipt.numOfPeople *
-                  receipt.numberOfNights | currency
-              }}</span>
+        <!-- Daily services per person - only show if features exist -->
+        <ng-container
+          *ngIf="dailyFeatures.length > 0 || oneTimeFeatures.length > 0"
+        >
+          <div class="features-section">
+            <h4>Daily Services (per person per night)</h4>
+            <div class="feature-item" *ngFor="let feature of dailyFeatures">
+              <span>{{ feature.name }}</span>
+              <div class="price-details">
+                <small
+                  >{{ feature.pricePerPerson | currency }} ×
+                  {{ receipt.numOfPeople }} persons ×
+                  {{ receipt.numberOfNights }} nights</small
+                >
+                <span>{{
+                  feature.pricePerPerson *
+                    receipt.numOfPeople *
+                    receipt.numberOfNights | currency
+                }}</span>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- One-time services -->
-        <div class="features-list">
-          <h4>One-time Services</h4>
-          <div class="feature-item" *ngFor="let feature of oneTimeFeatures">
-            <span>{{ feature.name }}</span>
-            <div class="price-details">
-              <span>{{ feature.price | currency }}</span>
+            <!-- One-time services - only show if features exist -->
+            <div class="features-list" *ngIf="oneTimeFeatures.length > 0">
+              <h4>One-time Services</h4>
+              <div class="feature-item" *ngFor="let feature of oneTimeFeatures">
+                <span>{{ feature.name }}</span>
+                <div class="price-details">
+                  <span>{{ feature.price | currency }}</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </ng-container>
 
         <div class="total-price">
           <span>Total Amount</span>

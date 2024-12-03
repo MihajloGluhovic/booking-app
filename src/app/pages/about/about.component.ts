@@ -45,17 +45,17 @@ export class AboutComponent {
           {
             label: 'I',
             content:
-              'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?cs=srgb&dl=pexels-pixabay-261102.jpg&fm=jpg',
+              'https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?cs=srgb&dl=pexels-thorsten-technoman-109353-338504.jpg&fm=jpg',
           },
           {
             label: 'II',
             content:
-              'https://plus.unsplash.com/premium_photo-1661964071015-d97428970584?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWx8ZW58MHx8MHx8fDA%3D',
+              'https://wallpaperswide.com/download/luxury_hotel-wallpaper-2560x1440.jpg',
           },
           {
             label: 'III',
             content:
-              'https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?cs=srgb&dl=pexels-thorsten-technoman-109353-338504.jpg&fm=jpg',
+              'https://wallpaperbat.com/img/726926-luxury-hotel-near-the-sea-beach-1920x1080-r-wallpaper.jpg',
           },
         ]);
       }, 1000);

@@ -39,6 +39,7 @@ import { dateRangeValidator } from './validators/date-range.validator';
 })
 export class SearchComponent {
   dateRangeForm: FormGroup;
+  minDate: Date = new Date();
 
   constructor(
     private fb: FormBuilder,

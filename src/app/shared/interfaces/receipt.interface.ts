@@ -10,12 +10,12 @@ export interface Receipt {
   roomTitle: string;
   description: string;
   image: string;
-  featureNames: string;
-  featurePrices: string;
+  featureNames: string | null;
+  featurePrices: string | null;
   pricePerNight: number;
   basePrice: number;
 
   isReviewed: boolean;
-  review: ReviewInterface;
+  review: ReviewInterface | null;
   isExpired: boolean;
 }

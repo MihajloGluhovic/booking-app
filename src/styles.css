@@ -37,3 +37,48 @@ app-root {
 app-footer {
   margin-top: auto;
 }
+.modern-dialog .mat-mdc-dialog-container {
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.modern-dialog .mat-mdc-dialog-surface {
+  border-radius: 12px;
+  padding: 8px;
+}
+
+/* Add these global snackbar styles */
+.success-snackbar {
+  background: linear-gradient(135deg, #4caf50, #8bc34a) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3) !important;
+}
+
+.error-snackbar {
+  background: linear-gradient(135deg, #ff4b4b, #ff7676) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 15px rgba(255, 75, 75, 0.3) !important;
+}
+
+.info-snackbar {
+  background: linear-gradient(135deg, #2196f3, #03a9f4) !important;
+  color: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3) !important;
+}
+
+/* Common styles for all snackbars */
+.success-snackbar,
+.error-snackbar,
+.info-snackbar {
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+}
+
+.success-snackbar .mat-simple-snackbar-action,
+.error-snackbar .mat-simple-snackbar-action,
+.info-snackbar .mat-simple-snackbar-action {
+  color: white !important;
+}

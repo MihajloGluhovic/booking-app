@@ -1,40 +1,42 @@
 <div class="search-container">
-  <h2 class="search-title">Select Date Range</h2>
-
   <div class="search-wrapper">
+    <p class="search-title">Find Your Stay</p>
+
     <form [formGroup]="dateRangeForm">
       <mat-form-field appearance="outline" class="date-picker-field">
-        <mat-label>Date Range</mat-label>
+        <mat-label>Select Dates</mat-label>
         <mat-date-range-input
           [formGroup]="dateRangeForm"
           [rangePicker]="picker"
+          [min]="minDate"
         >
-          <input matStartDate formControlName="startDate" placeholder="From" />
-          <input matEndDate formControlName="endDate" placeholder="To" />
+          <input
+            matStartDate
+            formControlName="startDate"
+            placeholder="Check-in"
+          />
+          <input
+            id="date-input"
+            matEndDate
+            formControlName="endDate"
+            placeholder="Check-out"
+          />
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker">
-          <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+          <mat-icon matDatepickerToggleIcon>event</mat-icon>
         </mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
 
-      <div
-        class="error-message"
-        *ngIf="dateRangeForm.get('startDate')?.hasError('required')"
+      <button
+        class="search-button"
+        mat-flat-button
+        (click)="search()"
+        [disabled]="!dateRangeForm.valid"
       >
-        Please select a date range
-      </div>
+        <mat-icon>search</mat-icon>
+        <span>Search</span>
+      </button>
     </form>
-
-    <button
-      class="search-button"
-      mat-flat-button
-      color="primary"
-      (click)="search()"
-      [disabled]="!dateRangeForm.valid"
-    >
-      <mat-icon>search</mat-icon>
-      <span>Search</span>
-    </button>
   </div>
 </div>

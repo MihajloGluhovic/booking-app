@@ -149,14 +149,34 @@ export class ReceiptComponent implements OnInit {
     }
   }
   parseFeatures(): void {
-    if (this.receipt) {
-      const names = this.receipt.featureNames.split(',');
-      const prices = this.receipt.featurePrices.split(',');
+    this.dailyFeatures = [];
+    this.oneTimeFeatures = [];
 
-      this.features = names.map((name: any, index: any) => ({
-        name: name.trim(),
-        price: prices[index]?.trim() || '0.00',
-      }));
+    if (this.receipt?.featureNames && this.receipt?.featurePrices) {
+      const names = this.receipt.featureNames
+        .split(',')
+        .map((name: string) => name.trim());
+      const prices = this.receipt.featurePrices
+        .split(',')
+        .map((price: string) => parseFloat(price.trim()));
+
+      names.forEach((name: string, index: number) => {
+        // Only add features that were actually in the receipt
+        if (['Breakfast', 'Sauna', 'Gym'].includes(name)) {
+          this.dailyFeatures.push({
+            name,
+            pricePerPerson: prices[index],
+          });
+        } else if (['LaundryService', 'Parking'].includes(name)) {
+          // Convert LaundryService to "Laundry Service" for display
+          const displayName =
+            name === 'LaundryService' ? 'Laundry Service' : name;
+          this.oneTimeFeatures.push({
+            name: displayName,
+            price: prices[index],
+          });
+        }
+      });
     }
   }
 

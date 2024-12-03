@@ -1,4 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { RegisterRequestInterface } from '../interfaces/registerRequestInterface';
 import { environment } from '../../../environments/environment.development';
@@ -6,7 +10,14 @@ import { UserInterface } from '../interfaces/user.interface';
 import { LoginRequestInterface } from '../interfaces/loginRequestInterface.interface';
 import { Router } from '@angular/router';
 import { ChangePassRequest } from '../interfaces/changePassRequest.interface';
-import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -58,34 +69,41 @@ export class AuthService {
     }
   }
 
-  register(registerData: RegisterRequestInterface) {
+  register(registerData: RegisterRequestInterface): Observable<any> {
     const fullUrl = environment.apiUrl + '/users/register';
     const headers = new HttpHeaders({
       'Ocp-Apim-Subscription-Key': environment.apiKey,
     });
-    return this.http
-      .post<UserInterface>(fullUrl, registerData, { headers })
-      .subscribe(
-        (user) => {
-          const email = registerData.email;
-          const password = registerData.password;
+
+    return new Observable((observer) => {
+      this.http
+        .post<UserInterface>(fullUrl, registerData, { headers })
+        .pipe(
+          catchError((error: HttpErrorResponse) => {
+            observer.error(error.error);
+            return throwError(() => error);
+          })
+        )
+        .subscribe((response) => {
+          const { email, password } = registerData;
+
           this.login({ email, password }).subscribe({
             next: (loggedInUser) => {
-              // Storing the user and navigating to home page
-              console.log('Logged in user after registration:', loggedInUser);
               this.storeUser(loggedInUser);
               this.isAuthenticatedSubject.next(true);
               this.router.navigate(['/home']);
+              observer.next({
+                success: true,
+                message: 'Registration successful!',
+              });
+              observer.complete();
             },
             error: (err) => {
-              console.error('Error logging in after activation', err);
+              observer.error(err.error || 'Login after registration failed');
             },
           });
-        },
-        (error) => {
-          console.error('Register error:', error);
-        }
-      );
+        });
+    });
   }
 
   login(data: LoginRequestInterface) {

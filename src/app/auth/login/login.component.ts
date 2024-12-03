@@ -14,6 +14,7 @@ import { AuthService } from '../services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -39,7 +41,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -49,16 +52,19 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log('Form submitted successfully');
-      this.authService.login(this.loginForm.value).subscribe(
-        (user) => {
+      this.authService.login(this.loginForm.value).subscribe({
+        next: (user) => {
           if (user.isActive) {
-            // User is active, proceed with login
             this.authService.storeUser(user);
             this.authService.isAuthenticatedSubject.next(true);
             this.router.navigate(['/home']);
+            this.snackBar.open('Welcome back!', 'Close', {
+              duration: 5000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: ['success-snackbar'],
+            });
           } else {
-            // User is inactive, ask for account activation
             console.log('Account is inactive', user);
             this.authService.storeUser(user); // Store inactive user
 
@@ -80,10 +86,16 @@ export class LoginComponent {
             });
           }
         },
-        (err) => {
+        error: (err) => {
           console.error(err);
-        }
-      );
+          this.snackBar.open('Invalid email or password', 'Close', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar'],
+          });
+        },
+      });
     } else {
       console.log('Form is invalid');
     }
