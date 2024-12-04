@@ -14,11 +14,15 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 500px;
 }
 
 img {
   width: 100%;
-  height: 250px;
+  height: 200px;
   object-fit: cover;
 }
 
@@ -26,6 +30,10 @@ mat-card-content {
   padding: 20px;
   text-align: center;
   background: white;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 /* List view styles */
@@ -79,19 +87,27 @@ mat-card-content {
 .room-title {
   font-size: 1.5rem;
   color: #333;
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .room-description {
-  color: #666;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 20px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  overflow: hidden;
 }
 
 .price-container {
-  margin: 20px 0;
+  margin-top: auto;
+  padding: 16px 0;
 }
 
 .currency {
@@ -112,9 +128,9 @@ mat-card-content {
 }
 
 .view-details-btn {
-  width: 80%;
+  width: 100%;
   padding: 10px;
-  margin: 10px auto;
+  margin-top: auto;
   background: transparent;
   border: 2px solid #333;
   color: #333;
@@ -181,4 +197,24 @@ mat-card-content {
 :host-context(.list) .rating-badge {
   top: 20px;
   right: calc(60% + 20px); /* Adjust based on your content width */
+}
+
+.button-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.hover-message {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  z-index: 1000;
 }

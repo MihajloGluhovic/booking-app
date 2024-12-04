@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
@@ -37,6 +37,8 @@ export class NavbarComponent {
       this.isTokenValid = isAuthenticated;
     });
   }
+
+  ngOnChanges(): void {}
 
   onLogout() {
     this.authService.logout();

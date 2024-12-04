@@ -42,7 +42,6 @@ import { MatListModule } from '@angular/material/list';
     MatDatepickerModule,
     MatButtonModule,
     MatCheckboxModule,
-    // MatProgressSpinner,
     MatNativeDateModule,
   ],
   templateUrl: './room-details.component.html',
@@ -83,45 +82,47 @@ export class RoomDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.checkToken().subscribe((tokenStatus) => {
-      if (tokenStatus === 'invalid' || tokenStatus === 'noToken') {
-        this.router.navigate(['/login']); // Redirect for invalid or missing token
-        console.log('Redirecting to login: Token expired or missing');
-        return;
-      }
+    this.route.queryParams.subscribe((params) => {
+      const startDate = params['startDate'];
+      const endDate = params['endDate'];
 
-      // Proceed with the rest of the component logic
-      this.servicesForm.valueChanges.subscribe(() => {
-        this.calculateTotalPrice();
-      });
-
-      const roomSlug = this.route.snapshot.paramMap.get('slug');
-      if (roomSlug) {
-        this.roomService.getRoomById(roomSlug).subscribe({
-          next: (room) => {
-            this.room = room;
-            this.guestCount = room.maxOccupancy;
-            this.maxGuests = room.maxOccupancy;
-            this.isLoading = false;
-
-            const staticFeatures = room.staticFeatures || {};
-
-            this.staticFeatures = Object.keys(staticFeatures)
-              .filter((key) => staticFeatures[key])
-              .map((key) => this.formatFeatureName(key));
-
-            this.dateRangeForm.patchValue({
-              startDate: room.startDate,
-              endDate: room.endDate,
-            });
-            this.calculateTotalPrice();
-          },
-          error: (err) => {
-            console.error('Error fetching room:', err);
-            this.isLoading = false;
-          },
+      if (startDate && endDate) {
+        this.dateRangeForm.patchValue({
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
         });
       }
+
+      this.authService.checkToken().subscribe((tokenStatus) => {
+        if (tokenStatus === 'invalid' || tokenStatus === 'noToken') {
+          this.router.navigate(['/login']);
+          console.log('Redirecting to login: Token expired or missing');
+          return;
+        }
+
+        const roomSlug = this.route.snapshot.paramMap.get('slug');
+        if (roomSlug) {
+          this.roomService.getRoomById(roomSlug, startDate, endDate).subscribe({
+            next: (room) => {
+              this.room = room;
+              this.guestCount = room.maxOccupancy;
+              this.maxGuests = room.maxOccupancy;
+              this.isLoading = false;
+
+              const staticFeatures = room.staticFeatures || {};
+              this.staticFeatures = Object.keys(staticFeatures)
+                .filter((key) => staticFeatures[key])
+                .map((key) => this.formatFeatureName(key));
+
+              this.calculateTotalPrice();
+            },
+            error: (err) => {
+              console.error('Error fetching room:', err);
+              this.isLoading = false;
+            },
+          });
+        }
+      });
     });
   }
 

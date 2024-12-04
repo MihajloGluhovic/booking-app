@@ -7,6 +7,9 @@ import { Router, RouterLink } from '@angular/router';
 import { RoomInterface } from '../interfaces/room.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute } from '@angular/router';
+import { RoomService } from '../services/rooms.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-room-card',
@@ -40,29 +43,30 @@ export class RoomCardComponent implements OnInit {
 
   isSearched: boolean = false;
 
-  constructor(private router: Router, private snackBar: MatSnackBar) {}
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private roomService: RoomService
+  ) {}
 
   ngOnInit(): void {
-    // Check if dates are selected
-    const startDate = localStorage.getItem('startDateStorage');
-    const endDate = localStorage.getItem('endDateStorage');
-    this.isSearched = !!(startDate && endDate);
+    // Check if dates are in the query parameters
+    this.route.queryParams.subscribe((params) => {
+      const startDate = params['startDate'];
+      const endDate = params['endDate'];
+      this.isSearched = !!(startDate && endDate);
+    });
   }
 
   viewDetails(): void {
-    if (this.isSearched) {
-      this.router.navigate(['/room', this.roomInfo.id]);
-    } else {
-      this.snackBar.open(
-        'Please select your check-in and check-out dates first',
-        'Close',
-        {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-          panelClass: ['warning-snackbar'],
-        }
-      );
-    }
+    this.roomService.searchDate$.pipe(take(1)).subscribe((dates) => {
+      if (dates) {
+        const [startDate, endDate] = dates;
+        this.router.navigate(['/room', this.roomInfo.id], {
+          queryParams: { startDate, endDate },
+        });
+      }
+    });
   }
 }

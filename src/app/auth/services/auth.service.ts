@@ -45,13 +45,13 @@ export class AuthService {
       });
     } else {
       this.isAuthenticatedSubject.next(false);
-      console.log('Status: ', status);
+      console.log('Status: ', 'noToken');
     }
   }
 
   checkToken(): Observable<'valid' | 'invalid' | 'noToken'> {
     const token = localStorage.getItem('token');
-    // console.log('Check token: ', token);
+    console.log('Check token: ', token);
     if (token) {
       const fullUrl = environment.apiUrl + '/users/check-token';
       const headers = new HttpHeaders({
@@ -208,5 +208,22 @@ export class AuthService {
     const currentUser = this.currentUserSig();
     const currentToken = localStorage.getItem('token');
     return currentUser?.token || currentToken;
+  }
+
+  startTokenValidityCheck(intervalMs: number = 60000) {
+    // Default check every minute
+    return setInterval(() => {
+      this.checkToken().subscribe((status) => {
+        if (status === 'valid') {
+          this.isAuthenticatedSubject.next(true);
+        } else {
+          this.isAuthenticatedSubject.next(false);
+        }
+      });
+    }, intervalMs);
+  }
+
+  stopTokenValidityCheck(intervalId: number) {
+    clearInterval(intervalId);
   }
 }

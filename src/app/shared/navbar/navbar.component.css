@@ -143,4 +143,33 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.nav-section {
+  display: flex;
+  align-items: center;
+}
+
+.left-section {
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.center-section {
+  flex: 1;
+  justify-content: center;
+}
+
+.right-section {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
 }

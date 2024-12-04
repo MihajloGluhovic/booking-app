@@ -61,7 +61,7 @@ export class LoginComponent {
             this.snackBar.open('Welcome back!', 'Close', {
               duration: 5000,
               horizontalPosition: 'center',
-              verticalPosition: 'top',
+              verticalPosition: 'bottom',
               panelClass: ['success-snackbar'],
             });
           } else {
@@ -91,7 +91,7 @@ export class LoginComponent {
           this.snackBar.open('Invalid email or password', 'Close', {
             duration: 5000,
             horizontalPosition: 'center',
-            verticalPosition: 'top',
+            verticalPosition: 'bottom',
             panelClass: ['error-snackbar'],
           });
         },

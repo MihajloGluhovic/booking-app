@@ -92,6 +92,8 @@
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   width: fit-content;
+  min-width: 180px;
+  justify-content: center;
 }
 
 .social-link:hover,

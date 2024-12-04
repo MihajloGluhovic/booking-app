@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { AuthService } from './auth/services/auth.service';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { AuthService } from './auth/services/auth.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -12,24 +15,28 @@ import { AuthService } from './auth/services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
-  title = 'Hotel Rikebo';
+export class AppComponent implements OnInit, OnDestroy {
+  title = 'Aqua Bay';
+  private routerSubscription?: Subscription;
 
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) {
-    // Listen for auth state changes
-    this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
-      if (!isAuthenticated) {
-        this.showInfo('You have been logged out');
-      }
-    });
+  constructor(private router: Router, private authService: AuthService) {}
+
+  ngOnInit() {
+    // Subscribe to router events
+    this.routerSubscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        // Check token on every successful navigation
+        this.authService.checkToken().subscribe((status) => {
+          this.authService.isAuthenticatedSubject.next(status === 'valid');
+          if (status !== 'valid') {
+            this.authService.isAuthenticatedSubject.next(false);
+          }
+        });
+      });
   }
 
-  private showInfo(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-      panelClass: ['info-snackbar'],
-    });
+  ngOnDestroy() {
+    this.routerSubscription?.unsubscribe();
   }
 }

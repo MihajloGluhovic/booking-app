@@ -60,7 +60,7 @@ export class RegisterComponent {
           this.snackBar.open(response.message, 'Close', {
             duration: 4000,
             horizontalPosition: 'center',
-            verticalPosition: 'top',
+            verticalPosition: 'bottom',
             panelClass: ['success-snackbar'],
           });
         },
@@ -70,7 +70,7 @@ export class RegisterComponent {
           this.snackBar.open(error, 'Close', {
             duration: 4000,
             horizontalPosition: 'center',
-            verticalPosition: 'top',
+            verticalPosition: 'bottom',
             panelClass: ['error-snackbar'],
           });
         },

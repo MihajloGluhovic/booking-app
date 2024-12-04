@@ -498,3 +498,15 @@ mat-card {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(25, 118, 210, 0.3);
 }
+
+.view-details-btn {
+  position: relative;
+  z-index: 1;
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 14px !important;
+  background: rgba(97, 97, 97, 0.9) !important;
+  padding: 8px 12px !important;
+  z-index: 1000 !important;
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { DateService } from '../services/date.service';
 import { RoomService } from '../services/rooms.service';
 import { dateRangeValidator } from './validators/date-range.validator';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -37,14 +38,16 @@ import { dateRangeValidator } from './validators/date-range.validator';
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   dateRangeForm: FormGroup;
   minDate: Date = new Date();
 
   constructor(
     private fb: FormBuilder,
     private dateService: DateService,
-    private roomsService: RoomService
+    private roomsService: RoomService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     // Create the form with startDate and endDate fields
     this.dateRangeForm = this.fb.group(
@@ -56,6 +59,38 @@ export class SearchComponent {
     );
   }
 
+  ngOnInit() {
+    // First check URL parameters
+    this.route.queryParams.subscribe((params) => {
+      const { startDate, endDate } = params;
+      this.roomsService.getRoomsOnDate(startDate, endDate);
+      if (startDate && endDate) {
+        this.dateRangeForm.patchValue({
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
+        });
+        this.roomsService.updateSearchDates(startDate, endDate);
+      }
+    });
+
+    // Then subscribe to searchDate$ as before
+    this.roomsService.searchDate$.subscribe((dates) => {
+      if (dates) {
+        const [startDate, endDate] = dates;
+        this.dateRangeForm.patchValue({
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
+        });
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { startDate, endDate },
+          queryParamsHandling: 'merge',
+        });
+        this.search();
+      }
+    });
+  }
+
   search() {
     const startDate = this.dateService.formatDate(
       this.dateRangeForm.get('startDate')?.value
@@ -64,13 +99,16 @@ export class SearchComponent {
       this.dateRangeForm.get('endDate')?.value
     );
 
-    const request = `available?startDate=${startDate}&endDate=${endDate}`;
-    localStorage.setItem('startDateStorage', startDate);
-    localStorage.setItem('endDateStorage', endDate);
+    // Update URL with query parameters
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { startDate, endDate },
+      queryParamsHandling: 'merge',
+    });
 
-    this.roomsService.getRoomsOnDate(request).subscribe(
-      (rooms) => console.log('Rooms updated:', rooms),
-      (error) => console.error('Error fetching rooms:', error)
-    );
+    this.roomsService.getRoomsOnDate(startDate, endDate).subscribe({
+      next: (rooms) => console.log('Rooms updated:', rooms),
+      error: (error) => console.error('Error fetching rooms:', error),
+    });
   }
 }

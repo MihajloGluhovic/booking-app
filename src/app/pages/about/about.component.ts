@@ -63,10 +63,10 @@ export class AboutComponent {
   }
 
   aboutUs = {
-    title: 'Welcome to Hotel Rikebo',
-    subtitle: 'Luxury at its Best',
+    title: 'Welcome to Aqua Bay',
+    subtitle: 'Where Luxury Meets the Ocean',
     description:
-      'Hotel Rikebo offers an exceptional stay with top-notch services. Our aim is to provide comfort and luxury for all our guests, whether for business or leisure.',
+      'Aqua Bay offers an exceptional stay with top-notch services. Our aim is to provide comfort and luxury for all our guests, whether for business or leisure.',
   };
 
   services = [

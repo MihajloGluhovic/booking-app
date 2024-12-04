@@ -13,17 +13,23 @@
       <span class="price">{{ roomInfo.price }}</span>
       <span class="per-night">/night</span>
     </div>
-    <button
-      mat-flat-button
-      class="view-details-btn"
-      [disabled]="!isSearched"
-      (click)="viewDetails()"
-      [routerLink]="['/room', roomInfo.id]"
-      [matTooltip]="
-        isSearched ? 'View room details' : 'Please select dates first'
-      "
+    <div
+      class="button-wrapper"
+      matTooltip="Please select your dates to view the room details"
+      [matTooltipDisabled]="isSearched"
+      matTooltipPosition="below"
+      [matTooltipShowDelay]="0"
     >
-      VIEW DETAILS
-    </button>
+      <button
+        #btn
+        mat-flat-button
+        class="view-details-btn"
+        [disabled]="!isSearched"
+        (click)="viewDetails()"
+        [routerLink]="['/room', roomInfo.id]"
+      >
+        VIEW DETAILS
+      </button>
+    </div>
   </mat-card-content>
 </mat-card>

@@ -19,6 +19,11 @@ export class RoomService {
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
 
+  private searchDateSubject = new BehaviorSubject<[string, string] | null>(
+    null
+  );
+  searchDate$ = this.searchDateSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getRooms(): Observable<RoomInterface[]> {
@@ -38,8 +43,11 @@ export class RoomService {
     );
   }
 
-  getRoomsOnDate(date: string): Observable<RoomInterface[]> {
-    const fullUrl = environment.apiUrl + '/roomtypes/' + date;
+  getRoomsOnDate(
+    startDate: string,
+    endDate: string
+  ): Observable<RoomInterface[]> {
+    const fullUrl = `${environment.apiUrl}/roomtypes/available?startDate=${startDate}&endDate=${endDate}`;
     const headers = new HttpHeaders({
       'Ocp-Apim-Subscription-Key': environment.apiKey,
     });
@@ -58,13 +66,14 @@ export class RoomService {
     );
   }
 
-  getRoomById(slug: string): Observable<RoomInterface> {
+  getRoomById(
+    slug: string,
+    startDate: string,
+    endDate: string
+  ): Observable<RoomInterface> {
     const token = localStorage.getItem('token');
 
-    const startDateItem = localStorage.getItem('startDateStorage');
-    const endDateItem = localStorage.getItem('endDateStorage');
-
-    const body = { startDate: startDateItem, endDate: endDateItem };
+    const body = { startDate, endDate };
 
     this.isLoadingSubject.next(true);
 
@@ -214,5 +223,9 @@ export class RoomService {
         );
       })
     );
+  }
+
+  updateSearchDates(startDate: string, endDate: string) {
+    this.searchDateSubject.next([startDate, endDate]);
   }
 }

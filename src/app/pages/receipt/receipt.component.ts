@@ -87,6 +87,7 @@ export class ReceiptComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     const bookingId = this.route.snapshot.paramMap.get('bookingId');
     if (bookingId) {
       this.roomService.getReceiptByBookingId(bookingId).subscribe({
@@ -207,20 +208,20 @@ export class ReceiptComponent implements OnInit {
         bookingId: this.receipt.bookingId,
         comment: this.editReviewForm.value.comment,
         rating: this.editRating,
+        createdAt: this.receipt.review.createdAt, // Preserve the original creation date
       };
-      console.log('Updated Review:', updatedReview);
+
       this.roomService.editReview(updatedReview).subscribe(
         (response) => {
           console.log('Successfully edited review: ', response);
+          // Update the local receipt object with all the review data
+          this.receipt.review = updatedReview;
+          this.isEditing = false;
         },
         (error) => {
           console.error('Error editing review: ', error);
         }
       );
-
-      // Save logic goes here (emit to parent or update API)
-      this.receipt.review = updatedReview;
-      this.isEditing = false;
     }
   }
 
