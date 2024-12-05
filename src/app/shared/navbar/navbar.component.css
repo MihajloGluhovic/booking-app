@@ -17,11 +17,6 @@ body {
   padding: 8px 16px;
   border-radius: 10px;
   transition: all 0.2s ease;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.home-button:hover {
-  background: rgba(255, 255, 255, 0.15);
 }
 
 .brand-text {
@@ -123,21 +118,9 @@ body {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .modern-navbar {
   animation: fadeInDown 0.4s ease-out;
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  padding: 0 2rem;
   height: 70px;
   box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2);
   position: sticky;
@@ -169,7 +152,13 @@ body {
   justify-content: flex-end;
 }
 
-.button-group {
-  display: flex;
-  gap: 8px;
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
