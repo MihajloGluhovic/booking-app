@@ -1,8 +1,0 @@
-<section [formGroup]="roomFilters">
-  <p class="strong">Room Type:</p>
-  <p *ngFor="let filter of filters">
-    <mat-checkbox formControlName="{{ filter }}">{{ filter }}</mat-checkbox>
-  </p>
-
-  <button mat-flat-button>Confirm</button>
-</section>

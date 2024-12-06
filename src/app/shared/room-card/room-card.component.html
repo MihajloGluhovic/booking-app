@@ -14,6 +14,14 @@
       <span class="per-night">/night</span>
     </div>
     <div
+      class="availability-info"
+      *ngIf="roomInfo!.availableRoomsCount && roomInfo!.availableRoomsCount > 0"
+    >
+      <span class="rooms-left"
+        >{{ roomInfo!.availableRoomsCount }} rooms available</span
+      >
+    </div>
+    <div
       class="button-wrapper"
       matTooltip="Please select your dates to view the room details"
       [matTooltipDisabled]="isSearched"

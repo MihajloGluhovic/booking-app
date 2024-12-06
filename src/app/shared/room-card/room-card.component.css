@@ -218,3 +218,32 @@ mat-card-content {
   white-space: nowrap;
   z-index: 1000;
 }
+
+.availability-info {
+  margin: 8px 0;
+}
+
+.availability-info .rooms-left {
+  color: #666;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.room-card {
+  position: relative;
+}
+
+.availability-info {
+  position: absolute;
+  bottom: 60px;
+  left: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.button-wrapper {
+  margin-top: 16px;
+}
