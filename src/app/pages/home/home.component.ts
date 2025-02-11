@@ -3,10 +3,11 @@ import {} from '@angular/common/http';
 import { SearchComponent } from '../../shared/search/search.component';
 import { HomeRoomsComponent } from '../../home-rooms/home-rooms.component';
 import { AuthService } from '../../auth/services/auth.service';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SearchComponent, HomeRoomsComponent],
+  imports: [SearchComponent, HomeRoomsComponent, MatIcon],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
